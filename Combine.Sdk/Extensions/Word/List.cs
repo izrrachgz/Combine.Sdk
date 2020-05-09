@@ -25,7 +25,7 @@ namespace Combine.Sdk.Extensions.Word
     public static WordprocessingDocument ToWord(this IEnumerable<string> list, WordDocumentConfiguration configuration = null)
     {
       if (list.ToList().IsNotValid()) return null;
-      string template = $@"{AppDomain.CurrentDomain.BaseDirectory}Templates\Document.docx";
+      string template = $@"{AppDomain.CurrentDomain.BaseDirectory}Extensions\Word\Templates\Document.docx";
       //Initialize via report template
       WordprocessingDocument document = WordprocessingDocument.CreateFromTemplate(template);
       try

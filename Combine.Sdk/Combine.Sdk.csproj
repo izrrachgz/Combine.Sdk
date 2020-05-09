@@ -43,8 +43,4 @@
     <Folder Include="Tools\Http\" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;$(TargetDir)Templates&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Extensions\Excel\Templates&quot; &quot;$(TargetDir)Templates&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Extensions\Word\Templates&quot; &quot;$(TargetDir)Templates&quot;&#xD;&#xA;echo &quot;Copying Template files to target compilation directory&quot;" />
-  </Target>
-
 </Project>

@@ -26,7 +26,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
       //Verify entity state
       if (entity == null)
         return new ComplexResponse<long>(false, @"The specified entity is not valid for save operation.");
-      string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}DataProvider.json";
+      string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json";
       //Verify configuration file
       if (!configUrl.IsFilePath(out Uri uri))
         return new ComplexResponse<long>(false, @"The configuration file is not present, the task could not be completed as requested.");
@@ -55,7 +55,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
       //Verify entity state
       if (entities.IsNotValid())
         return new ComplexResponse<List<long>>(false, @"The specified entity list is not valid for save operation.");
-      string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}DataProvider.json";
+      string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json";
       //Verify configuration file
       if (!configUrl.IsFilePath(out Uri uri))
         return new ComplexResponse<List<long>>(false, @"The configuration file is not present, the task could not be completed as requested.");
