@@ -1,0 +1,12 @@
+{
+  "Values": [
+    {
+      "Key": "ConnectionString",
+      "Value": "Data Source =.\\SQLEXPRESS;Initial Catalog = SqlDataProvider.Tests;Integrated Security = true; MultipleActiveResultSets = true;"
+    },
+    {
+      "Key": "Notification",
+      "Value": "izrra.ch@email.com"
+    }
+  ]
+}

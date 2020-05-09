@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Authors>Israel Chavez</Authors>
+    <Description>Por su capacidad de adaptamiento, es un sdk pensado en la agilidad y calidad.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Extensions\Excel\Templates\Report.xlsx" />
+    <None Remove="Extensions\Word\Templates\Document.docx" />
+    <None Remove="Storage\SqlServer\DataProvider.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Extensions\Excel\Templates\Report.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Extensions\Word\Templates\Document.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Storage\SqlServer\DataProvider.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.10.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Diagnostics\TaskPerformance\" />
+    <Folder Include="Extensions\CommonObjects\" />
+    <Folder Include="Extensions\Json\" />
+    <Folder Include="Storage\Definitions\DataProvider\Enums\" />
+    <Folder Include="Storage\Definitions\DataProvider\Extensions\" />
+    <Folder Include="Storage\Definitions\DataProvider\Interfaces\" />
+    <Folder Include="Storage\Definitions\DataProvider\Models\" />
+    <Folder Include="Storage\SqlServer\Commands\" />
+    <Folder Include="Storage\SqlServer\Extensions\" />
+    <Folder Include="Tools\Http\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir &quot;$(TargetDir)Templates&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Extensions\Excel\Templates&quot; &quot;$(TargetDir)Templates&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Extensions\Word\Templates&quot; &quot;$(TargetDir)Templates&quot;&#xD;&#xA;echo &quot;Copying Template files to target compilation directory&quot;" />
+  </Target>
+
+</Project>
