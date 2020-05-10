@@ -42,6 +42,7 @@
     <Folder Include="Storage\SqlServer\Commands\" />
     <Folder Include="Storage\SqlServer\Extensions\" />
     <Folder Include="Tools\Http\" />
+    <Folder Include="Tools\Replacer\" />
   </ItemGroup>
 
 </Project>
