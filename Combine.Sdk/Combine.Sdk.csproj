@@ -32,7 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Diagnostics\TaskPerformance\" />
+    <Folder Include="Diagnostics\Memory\" />
+    <Folder Include="Diagnostics\Performance\" />
     <Folder Include="Extensions\CommonObjects\" />
     <Folder Include="Extensions\Json\" />
     <Folder Include="Storage\Definitions\DataProvider\Enums\" />
