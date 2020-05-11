@@ -29,8 +29,8 @@ namespace Combine.Sdk.Diagnostics.Performance
     /// <returns>List of key value task</returns>
     public List<KeyValuePair<Task<T>, TimeSpan>> Measure<T>(Task<T>[] tasks)
     {
-      Stopwatch stopwatch = new Stopwatch();
       List<KeyValuePair<Task<T>, TimeSpan>> times = new List<KeyValuePair<Task<T>, TimeSpan>>();
+      Stopwatch stopwatch = new Stopwatch();
       stopwatch.Start();
       while (tasks.Length > 0)
       {
@@ -56,14 +56,14 @@ namespace Combine.Sdk.Diagnostics.Performance
     public List<KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>> MeasureInParallel<T>(Task<T>[] tasks)
     {
       List<KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>> times = new List<KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>>();
-      Stopwatch stopwatch = new Stopwatch();
-      stopwatch.Start();
       Parallel.ForEach(tasks, task =>
       {
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
         task.Wait();
         times.Add(new KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>(task, new KeyValuePair<int, TimeSpan>(Thread.CurrentThread.ManagedThreadId, stopwatch.Elapsed)));
+        stopwatch.Stop();
       });
-      stopwatch.Stop();
       return times;
     }
   }
