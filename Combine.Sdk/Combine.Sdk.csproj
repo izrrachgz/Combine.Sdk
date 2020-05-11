@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Diagnostics\Memory\" />
-    <Folder Include="Diagnostics\Performance\" />
     <Folder Include="Extensions\CommonObjects\" />
     <Folder Include="Extensions\Json\" />
     <Folder Include="Storage\Definitions\DataProvider\Enums\" />
@@ -46,5 +45,9 @@
     <Folder Include="Tools\Tasks\" />
     <Folder Include="Tools\Replacer\" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo &quot;Perhaps what I am is not as important as what I can offer you in exchange for comming all this way.&quot;" />
+  </Target>
 
 </Project>
