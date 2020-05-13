@@ -83,13 +83,9 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
     public void AddStreamContent()
     {
       HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
-      using (FileStream fs = File.OpenWrite($@"{AppDomain.CurrentDomain.BaseDirectory}Text.txt"))
+      using (FileStream fs = File.OpenWrite($@"{AppDomain.CurrentDomain.BaseDirectory}Tools\Http\HttpConfig.json"))
       {
-        using (StreamWriter sw = new StreamWriter(fs))
-        {
-          sw.WriteLine(@"Hello");
-          Assert.True(message.AddStreamContent(fs));
-        }
+        Assert.True(message.AddStreamContent(fs));
       }
     }
 
