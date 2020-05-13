@@ -202,9 +202,9 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <param name="content">Content to save</param>
     /// <param name="filePath">File path</param>
     /// <param name="fileName">File name without extension</param>
-    /// <param name="fileExtension">File extension without dot (.)</param>
+    /// <param name="extension">File extension</param>
     /// <returns>True or False</returns>
-    public static async Task<bool> SaveAsTextFile(this string content, string filePath = null, string fileName = null)
+    public static async Task<bool> SaveAsTextFile(this string content, string filePath = null, string fileName = null, string extension = null)
     {
       //Validate the object content
       if (content.IsNotValid()) return false;
@@ -213,7 +213,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
       fileName = fileName ?? $@"{Guid.NewGuid():N}";
       //Validate the path and name file values
       if (!filePath.IsDirectoryPath() || fileName.IsNotValid()) return false;
-      string fileFullName = $@"{filePath}{fileName}.txt";
+      string fileFullName = $@"{filePath}{fileName}{extension ?? @".txt"}";
       bool saved = false;
       try
       {

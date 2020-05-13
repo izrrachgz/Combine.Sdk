@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combine.Sdk", "Combine.Sdk\Combine.Sdk.csproj", "{DE3D2985-8905-408D-B06F-D527AE133ADA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Combine.Sdk", "Combine.Sdk\Combine.Sdk.csproj", "{DE3D2985-8905-408D-B06F-D527AE133ADA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combine.Sdk.Tests", "Combine.Sdk.Tests\Combine.Sdk.Tests.csproj", "{EDC77A77-104F-417E-87B6-4219A1645FE8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DE3D2985-8905-408D-B06F-D527AE133ADA} = {DE3D2985-8905-408D-B06F-D527AE133ADA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{DE3D2985-8905-408D-B06F-D527AE133ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE3D2985-8905-408D-B06F-D527AE133ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE3D2985-8905-408D-B06F-D527AE133ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDC77A77-104F-417E-87B6-4219A1645FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDC77A77-104F-417E-87B6-4219A1645FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDC77A77-104F-417E-87B6-4219A1645FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDC77A77-104F-417E-87B6-4219A1645FE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

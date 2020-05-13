@@ -1,0 +1,82 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <Copyright>israel.chavez</Copyright>
+
+    <Authors>Israel Chavez</Authors>
+
+    <Company>Israel Chavez</Company>
+
+    <Description>Laboratorio de pruebas theoricas y funcionales de Combine.Sdk</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Extensions\Facts\**" />
+    <Compile Remove="Extensions\Theories\**" />
+    <EmbeddedResource Remove="Extensions\Facts\**" />
+    <EmbeddedResource Remove="Extensions\Theories\**" />
+    <None Remove="Extensions\Facts\**" />
+    <None Remove="Extensions\Theories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Tools\Http\HttpConfig.json" />
+    <None Remove="Tools\Replacer\Templates\TextFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Tools\Http\HttpConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Replacer\Templates\TextFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.10.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.console" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Combine.Sdk">
+      <HintPath>..\Combine.Sdk\bin\Debug\netcoreapp2.2\Combine.Sdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Facts\" />
+    <Folder Include="Data\Theories\" />
+    <Folder Include="Diagnostics\Facts\" />
+    <Folder Include="Diagnostics\Theories\" />
+    <Folder Include="Extensions\CommonObjects\Theories\" />
+    <Folder Include="Extensions\Excel\" />
+    <Folder Include="Extensions\Json\Theories\" />
+    <Folder Include="Extensions\Word\Theories\" />
+    <Folder Include="Storage\SqlServer\Theories\" />
+    <Folder Include="Tools\Http\Theories\" />
+    <Folder Include="Tools\Replacer\Theories\" />
+    <Folder Include="Tools\Tasks\Theories\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir &quot;$(TargetDir)Extensions\Excel\Templates&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Combine.Sdk\Extensions\Excel\Templates&quot; &quot;$(TargetDir)Extensions\Excel\Templates&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)Extensions\Word\Templates&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Combine.Sdk\Extensions\Word\Templates&quot; &quot;$(TargetDir)Extensions\Word\Templates&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)Storage\SqlServer&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Combine.Sdk\Storage\SqlServer\DataProvider.json&quot; &quot;$(TargetDir)Storage\SqlServer\DataProvider.json&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Extensions&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Extensions\Excel&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Extensions\Word&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Extensions\Json&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Storage&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Storage\SqlServer&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Tools&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Tools\Http&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Tools\Replacer&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)TestResults\Tools\Tasks&quot;" />
+  </Target>
+
+</Project>

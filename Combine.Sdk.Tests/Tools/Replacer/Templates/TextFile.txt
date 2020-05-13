@@ -1,0 +1,3 @@
+﻿Nombre:{{Name}}
+Edad:{{Age}}
+Email:{{Email}}

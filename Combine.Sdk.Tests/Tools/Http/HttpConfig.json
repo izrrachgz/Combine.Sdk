@@ -1,0 +1,12 @@
+{
+  "Values": [
+    {
+      "Key": "UrlBin",
+      "Value": "http://requestbin.net/"
+    },
+    {
+      "Key": "MethodBin",
+      "Value": "r/1ake7c01"
+    }
+  ]
+}
