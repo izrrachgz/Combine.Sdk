@@ -55,7 +55,7 @@ namespace Combine.Sdk.Tests.Extensions.Word.Facts
       WordDocumentConfiguration configuration = new WordDocumentConfiguration()
       {
         Title = @"Documento Reporte",
-        OutPutPath = AppDomain.CurrentDomain.BaseDirectory
+        OutPutPath = $@"{AppDomain.CurrentDomain.BaseDirectory}TestResults\Extensions\Word\"
       };
       WordprocessingDocument document = names.ToWord(configuration);
       Assert.True(document != null);

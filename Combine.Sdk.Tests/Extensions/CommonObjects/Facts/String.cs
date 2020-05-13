@@ -178,7 +178,8 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
     public async void SaveAsTextFile()
     {
       string content = @"Hello";
-      Assert.True(await content.SaveAsTextFile());
+      string path = $@"{AppDomain.CurrentDomain.BaseDirectory}TestResults\Extensions\CommonObjects\";
+      Assert.True(await content.SaveAsTextFile(path, @"Hello"));
     }
   }
 }

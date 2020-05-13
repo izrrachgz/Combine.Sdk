@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using System;
 using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
 
@@ -84,7 +85,8 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
       {
         {@"Israel",@"Chavez" }
       };
-      Assert.True(await o.SaveAsDataFile());
+      string path = $@"{AppDomain.CurrentDomain.BaseDirectory}TestResults\Extensions\CommonObjects\";
+      Assert.True(await o.SaveAsDataFile(path, @"Names"));
     }
   }
 }

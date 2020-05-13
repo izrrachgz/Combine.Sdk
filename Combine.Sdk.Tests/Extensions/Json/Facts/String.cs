@@ -56,8 +56,9 @@ namespace Combine.Sdk.Tests.Extensions.Json.Facts
         @"Chavez",
         @"Gamez"
       };
-      await list.SaveAsJsonFile(true, $@"{AppDomain.CurrentDomain.BaseDirectory}", @"Listita");
-      $@"{AppDomain.CurrentDomain.BaseDirectory}Listita.json".IsFilePath(out Uri uri);
+      string url = $@"{AppDomain.CurrentDomain.BaseDirectory}TestResults\Extensions\Json\";
+      await list.SaveAsJsonFile(true, url, @"Listita");
+      $@"{url}Listita.json".IsFilePath(out Uri uri);
       Assert.True(!uri.IsNotValid());
     }
   }
