@@ -53,7 +53,7 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Theories
       }
       stopwatch.Stop();
       document.AutoAdjustWidth();
-      document.SaveAs($@"{AppDomain.CurrentDomain.BaseDirectory}TestResults\Extensions\Excel\HugeReport.xlsx");
+      document.SaveAs($@"{AppDomain.CurrentDomain.BaseDirectory}TestResults\Extensions\Excel\SpreadSheet.xlsx");
       Assert.True(stopwatch.Elapsed.TotalSeconds <= seconds);
     }
   }

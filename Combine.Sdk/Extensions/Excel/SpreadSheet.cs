@@ -237,7 +237,30 @@ namespace Combine.Sdk.Extensions.Excel
       //Initialize worksheet
       if (workSpace.Worksheet == null)
         workSpace.Worksheet = new Worksheet();
-      //Initialize worksheet stylesheet
+      //Load default style sheet
+      document.LoadDefaultStyleSheet();
+      //Share string table part
+      StringPart = book.GetPartsOfType<SharedStringTablePart>()
+        .FirstOrDefault();
+      //Add Document properties
+      document.SetProperties(@"Reporte");
+      //Add extended Document properties
+      document.SetExtendedProperties(null, null);
+      //Save all changes
+      document.Save();
+      return document;
+    }
+
+    /// <summary>
+    /// Loads the default style sheet part
+    /// </summary>
+    /// <param name="document">SpreadSheetDocument reference</param>
+    public static void LoadDefaultStyleSheet(this SpreadsheetDocument document)
+    {
+      //Verify document to work with
+      if (document.IsNotValid())
+        return;
+      //Initialize worksheet stylesheet once
       WorkbookStylesPart style = document.WorkbookPart.WorkbookStylesPart ?? document.WorkbookPart.AddNewPart<WorkbookStylesPart>();
       if (style.Stylesheet == null)
         style.Stylesheet = new Stylesheet();
@@ -278,16 +301,7 @@ namespace Combine.Sdk.Extensions.Excel
       //Save all reserved formats
       style.Stylesheet.Save();
       StylePart = style;
-      //Share string table part
-      StringPart = book.GetPartsOfType<SharedStringTablePart>()
-        .FirstOrDefault();
-      //Add Document properties
-      document.SetProperties(@"Reporte");
-      //Add extended Document properties
-      document.SetExtendedProperties(null, null);
-      //Save all changes
       document.Save();
-      return document;
     }
 
     /// <summary>
