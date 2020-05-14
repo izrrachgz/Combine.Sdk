@@ -281,20 +281,10 @@ namespace Combine.Sdk.Extensions.Excel
       //Share string table part
       StringPart = book.GetPartsOfType<SharedStringTablePart>()
         .FirstOrDefault();
-      //Add document properties
-      document.PackageProperties.Title = @"Reporte de Listado";
-      document.PackageProperties.Creator = @"Israel Ch";
-      document.PackageProperties.Category = @"Reporte";
-      document.PackageProperties.Description = $@"Listado de entidades";
-      document.PackageProperties.LastModifiedBy = @"Israel Ch";
-      //Add extended document properties
-      if (document.ExtendedFilePropertiesPart == null)
-        document.AddExtendedFilePropertiesPart();
-      document.ExtendedFilePropertiesPart.Properties = new Properties
-      {
-        Company = new Company(@"izrra.ch"),
-        Application = new Application("Extensions.Excel")
-      };
+      //Add Document properties
+      document.SetProperties(@"Reporte");
+      //Add extended Document properties
+      document.SetExtendedProperties(null, null);
       //Save all changes
       document.Save();
       return document;
@@ -573,6 +563,47 @@ namespace Combine.Sdk.Extensions.Excel
           //Save all changes made
           ws.Save();
         });
+      document.Save();
+    }
+
+    /// <summary>
+    /// Sets the document public properties
+    /// </summary>
+    /// <param name="document">SpreadSheetDocument reference</param>
+    /// <param name="title">Document title</param>
+    /// <param name="description">Document description</param>
+    /// <param name="creator">Creator</param>
+    /// <param name="category">Category</param>
+    /// <param name="lastModifiedBy">Person that last modified</param>
+    public static void SetProperties(this SpreadsheetDocument document, string title, string description = null, string creator = null, string category = null, string lastModifiedBy = null)
+    {
+      //Add Document properties
+      document.PackageProperties.Title = title ?? @"Reporte";
+      document.PackageProperties.Creator = creator ?? @"Israel Ch";
+      document.PackageProperties.Category = category ?? @"Reporte";
+      document.PackageProperties.Description = description ?? @"Reporte tipo listado";
+      document.PackageProperties.LastModifiedBy = lastModifiedBy ?? @"Israel Ch";
+      //Save all changes
+      document.Save();
+    }
+
+    /// <summary>
+    /// Sets the extended document properties
+    /// </summary>
+    /// <param name="document">SpreadSheetDocument reference</param>
+    /// <param name="company">Company</param>
+    /// <param name="application">Application</param>
+    public static void SetExtendedProperties(this SpreadsheetDocument document, Company company, Application application)
+    {
+      //Add extended Document properties
+      if (document.ExtendedFilePropertiesPart == null)
+        document.AddExtendedFilePropertiesPart();
+      document.ExtendedFilePropertiesPart.Properties = new Properties
+      {
+        Company = company ?? new Company(@"izrra.ch"),
+        Application = application ?? new Application("Extensions.Excel")
+      };
+      //Save all changes
       document.Save();
     }
   }
