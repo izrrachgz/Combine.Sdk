@@ -41,6 +41,8 @@ namespace Combine.Sdk.Extensions.Excel
     /// </summary>
     private static SharedStringTablePart StringPart { get; set; }
 
+    private static List<string> TableStrings { get; set; }
+
     /// <summary>
     /// Adds the font color to the current
     /// style sheet and creates a cell reference style
@@ -242,6 +244,9 @@ namespace Combine.Sdk.Extensions.Excel
       //Share string table part
       StringPart = book.GetPartsOfType<SharedStringTablePart>()
         .FirstOrDefault();
+      TableStrings = StringPart.SharedStringTable
+        .Select(s => s.InnerText)
+        .ToList();
       //Add Document properties
       document.SetProperties(@"Reporte");
       //Add extended Document properties
@@ -619,6 +624,61 @@ namespace Combine.Sdk.Extensions.Excel
       };
       //Save all changes
       document.Save();
+    }
+
+    /// <summary>
+    /// Gets all the data in the rows inside the sheet data
+    /// as an object array each
+    /// </summary>
+    /// <param name="sheet">Sheet data reference</param>
+    /// <returns>List<object[]></returns>
+    public static async Task<List<object[]>> GetData(this SheetData sheet, ushort takeSize = 5000)
+    {
+      //Verify sheet integrity
+      if (sheet.IsNotValid())
+        return null;
+      //Reference to rows contained inside
+      IEnumerable<Row> rows = sheet.Descendants<Row>()
+        .Where(r => !r.Descendants<Cell>().All(c => c.CellValue == null));
+      //Total rows contained
+      int total = rows.Count();
+      if (total.Equals(0))
+        return new List<object[]>(0);
+      //Reference data roundtrip
+      List<object[]> data = new List<object[]>(total);
+      //Total page-take tasks
+      int totalTasks = total / takeSize;
+      //Actual total page-take data tasks
+      totalTasks = (totalTasks * takeSize).Equals(total) ? totalTasks : totalTasks + 1;
+      //Reference to tasks
+      Task[] tasks = new Task[totalTasks];
+      for (int x = 0; x < totalTasks; x++)
+      {
+        //Create the selection task
+        tasks[x] = Task.Run(() =>
+        {
+          List<object[]> page = rows
+          .Select(r => r.Descendants<Cell>()
+          .Select(c =>
+          {
+            //return null if there is no way to tell if there is data in the current cell
+            if (c.DataType == null || c.CellValue == null) return null;
+            object v = c.CellValue;
+            //take cell data from string table reference
+            if (c.DataType.Equals(CellValues.SharedString) && c.CellValue.Text.IsNumber())
+              v = TableStrings?.ElementAt(Convert.ToInt32(c.CellValue.Text)) ?? "";
+            return v;
+          }).ToArray())
+          .Skip(x * takeSize)
+          .Take(takeSize)
+          .ToList();
+          //Add data to main reference
+          data.AddRange(page);
+        });
+      }
+      //Wait until all the parallel tasks finish
+      await Task.Run(() => Parallel.ForEach(tasks, t => t.Wait()));
+      return data;
     }
   }
 }
