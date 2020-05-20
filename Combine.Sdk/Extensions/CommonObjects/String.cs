@@ -62,7 +62,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <returns>True or False</returns>
     public static bool IsNumber(this string characters)
     {
-      return !characters.IsNotValid() && new Regex(@"^\d").IsMatch(characters);
+      return !characters.IsNotValid() && new Regex(@"^[+-]?[0-9]{1,9}(?:\.[0-9]{1,2})?$").IsMatch(characters);
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     {
       date = DateTime.MinValue;
       if (characters.IsNotValid()) return false;
-      DateTime.TryParse(characters, out date);
+      if (!DateTime.TryParse(characters, out date)) return false;
       return !date.IsNotValid();
     }
 
@@ -110,7 +110,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     {
       time = TimeSpan.MinValue;
       if (characters.IsNotValid()) return false;
-      TimeSpan.TryParse(characters, out time);
+      if (!TimeSpan.TryParse(characters, out time)) return false;
       return !time.IsNotValid();
     }
 
@@ -124,7 +124,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     {
       guid = Guid.Empty;
       if (characters.IsNotValid()) return false;
-      Guid.TryParse(characters, out guid);
+      if (!Guid.TryParse(characters, out guid)) return false;
       return !guid.IsNotValid();
     }
 
@@ -137,7 +137,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     public static bool IsCurrency(this string characters, out decimal money)
     {
       money = decimal.MinValue;
-      if (characters.IsNotValid()) return false;
+      if (!characters.IsNumber() || !characters.Contains(@".")) return false;
       decimal.TryParse(characters, NumberStyles.Currency, CultureInfo.CurrentCulture, out money);
       return !money.IsNotValid();
     }

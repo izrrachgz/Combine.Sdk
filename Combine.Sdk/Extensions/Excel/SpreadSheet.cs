@@ -632,53 +632,35 @@ namespace Combine.Sdk.Extensions.Excel
     /// </summary>
     /// <param name="sheet">Sheet data reference</param>
     /// <returns>List<object[]></returns>
-    public static async Task<List<object[]>> GetData(this SheetData sheet, ushort takeSize = 5000)
+    public static List<object[]> GetData(this SheetData sheet)
     {
       //Verify sheet integrity
       if (sheet.IsNotValid())
         return null;
       //Reference to rows contained inside
-      IEnumerable<Row> rows = sheet.Descendants<Row>()
-        .Where(r => !r.Descendants<Cell>().All(c => c.CellValue == null));
-      //Total rows contained
-      int total = rows.Count();
-      if (total.Equals(0))
-        return new List<object[]>(0);
-      //Reference data roundtrip
-      List<object[]> data = new List<object[]>(total);
-      //Total page-take tasks
-      int totalTasks = total / takeSize;
-      //Actual total page-take data tasks
-      totalTasks = (totalTasks * takeSize).Equals(total) ? totalTasks : totalTasks + 1;
-      //Reference to tasks
-      Task[] tasks = new Task[totalTasks];
-      for (int x = 0; x < totalTasks; x++)
-      {
-        //Create the selection task
-        tasks[x] = Task.Run(() =>
-        {
-          List<object[]> page = rows
-          .Select(r => r.Descendants<Cell>()
-          .Select(c =>
-          {
-            //return null if there is no way to tell if there is data in the current cell
-            if (c.DataType == null || c.CellValue == null) return null;
-            object v = c.CellValue;
-            //take cell data from string table reference
-            if (c.DataType.Equals(CellValues.SharedString) && c.CellValue.Text.IsNumber())
-              v = TableStrings?.ElementAt(Convert.ToInt32(c.CellValue.Text)) ?? "";
-            return v;
-          }).ToArray())
-          .Skip(x * takeSize)
-          .Take(takeSize)
-          .ToList();
-          //Add data to main reference
-          data.AddRange(page);
-        });
-      }
-      //Wait until all the parallel tasks finish
-      await Task.Run(() => Parallel.ForEach(tasks, t => t.Wait()));
-      return data;
+      return sheet.Descendants<Row>()
+        .Where(r => !r.Descendants<Cell>().All(c => c.DataType == null))
+        .Select(r => r.Descendants<Cell>()
+          .Select(c => c.GetValue())
+          .ToArray()
+        ).ToList();
+    }
+
+    /// <summary>
+    /// Gets the cell string value
+    /// </summary>
+    /// <param name="cell">Cell reference</param>
+    /// <returns>object</returns>
+    public static object GetValue(this Cell cell)
+    {
+      if (cell.IsNotValid())
+        return null;
+      //Cell is rather empty or not defined
+      object value = cell.CellValue?.Text ?? @"";
+      //take cell data from string table reference
+      if (cell.DataType?.Equals(CellValues.SharedString) ?? false && value.IsNumber())
+        value = TableStrings?.ElementAt(Convert.ToInt32(value)) ?? "";
+      return value;
     }
   }
 }
