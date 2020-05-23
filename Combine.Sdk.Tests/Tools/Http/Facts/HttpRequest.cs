@@ -298,7 +298,7 @@ namespace Combine.Sdk.Tests.Tools.Http.Facts
       string url = @"https://www.google.com";
       string method = @"/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
       HttpRequest http = new HttpRequest();
-      ComplexResponse<DownloadFile> content = await http.Download(url, method);
+      ComplexResponse<RawBytes> content = await http.Download(url, method);
       Assert.True(content.Correct);
     }
 
