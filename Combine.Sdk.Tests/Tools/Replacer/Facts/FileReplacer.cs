@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using System;
 using System.Linq;
-using Combine.Sdk.Tools.Repalcer;
+using Combine.Sdk.ToolBox.Repalcer;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 

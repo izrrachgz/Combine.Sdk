@@ -1,4 +1,4 @@
-﻿namespace Combine.Sdk.Tools.Http.Models
+﻿namespace Combine.Sdk.ToolBox.Http.Models
 {
   /// <summary>
   /// Represents a dowload file data model

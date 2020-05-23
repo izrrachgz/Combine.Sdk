@@ -45,9 +45,6 @@
     <Folder Include="Storage\Definitions\DataProvider\Models\" />
     <Folder Include="Storage\SqlServer\Commands\" />
     <Folder Include="Storage\SqlServer\Extensions\" />
-    <Folder Include="Tools\Http\" />
-    <Folder Include="Tools\Tasks\" />
-    <Folder Include="Tools\Replacer\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

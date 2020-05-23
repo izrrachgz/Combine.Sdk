@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
 
-namespace Combine.Sdk.Tools.Repalcer
+namespace Combine.Sdk.ToolBox.Repalcer
 {
   /// <summary>
   /// Provides a mechanism to replace the contents

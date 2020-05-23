@@ -7,11 +7,11 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Combine.Sdk.Tools.Http.Models;
+using Combine.Sdk.ToolBox.Http.Models;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 
-namespace Combine.Sdk.Tools.Http
+namespace Combine.Sdk.ToolBox.Http
 {
   /// <summary>  
   /// Provides the mechanism to make http web requests

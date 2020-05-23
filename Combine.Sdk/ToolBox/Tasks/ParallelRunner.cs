@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Combine.Sdk.Tools.Tasks
+namespace Combine.Sdk.ToolBox.Tasks
 {
   /// <summary>
   /// Provides a mechanism to runs tasks

@@ -1,4 +1,4 @@
-﻿namespace Combine.Sdk.Tools.Http.Models
+﻿namespace Combine.Sdk.ToolBox.Http.Models
 {
   /// <summary>
   /// Represents the most basic data model
