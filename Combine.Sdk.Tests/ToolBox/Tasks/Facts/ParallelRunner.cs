@@ -4,7 +4,7 @@ using Combine.Sdk.ToolBox.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Combine.Sdk.Tests.Tasks.Facts
+namespace Combine.Sdk.Tests.ToolBox.Tasks.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the methods

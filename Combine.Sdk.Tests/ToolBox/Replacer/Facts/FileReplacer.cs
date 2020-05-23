@@ -5,7 +5,7 @@ using Combine.Sdk.ToolBox.Repalcer;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Combine.Sdk.Tests.Replaces.Facts
+namespace Combine.Sdk.Tests.ToolBox.Replaces.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the methods

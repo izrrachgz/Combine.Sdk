@@ -11,7 +11,7 @@ using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Data.Definitions.Collection;
 
-namespace Combine.Sdk.Tests.Tools.Http.Facts
+namespace Combine.Sdk.Tests.ToolBox.Http.Facts
 {
   /// <summary>
   /// 

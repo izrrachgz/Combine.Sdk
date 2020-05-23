@@ -24,15 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Tools\Http\HttpConfig.json" />
-    <None Remove="Tools\Replacer\Templates\TextFile.txt" />
+    <None Remove="ToolBox\Http\HttpConfig.json" />
+    <None Remove="ToolBox\Replacer\Templates\TextFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Tools\Http\HttpConfig.json">
+    <Content Include="ToolBox\Http\HttpConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Tools\Replacer\Templates\TextFile.txt">
+    <Content Include="ToolBox\Replacer\Templates\TextFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -68,9 +68,9 @@
     <Folder Include="Extensions\Json\Theories\" />
     <Folder Include="Extensions\Word\Theories\" />
     <Folder Include="Storage\SqlServer\Theories\" />
-    <Folder Include="Tools\Http\Theories\" />
-    <Folder Include="Tools\Replacer\Theories\" />
-    <Folder Include="Tools\Tasks\Theories\" />
+    <Folder Include="ToolBox\Http\Theories\" />
+    <Folder Include="ToolBox\Replacer\Theories\" />
+    <Folder Include="ToolBox\Tasks\Theories\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Combine.Sdk.Data.Definitions.Response
 {
@@ -26,6 +27,7 @@ namespace Combine.Sdk.Data.Definitions.Response
     /// during the process resolving
     /// task
     /// </summary>
+    [JsonIgnore]
     public Exception Exception { get; }
 
     /// <summary>
