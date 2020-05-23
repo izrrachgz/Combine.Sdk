@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Combine.Sdk.Diagnostics.Definitions.Models;
 
 namespace Combine.Sdk.Diagnostics.Performance
 {
@@ -27,16 +27,16 @@ namespace Combine.Sdk.Diagnostics.Performance
     /// <typeparam name="T">Type of task</typeparam>
     /// <param name="tasks">Task array</param>
     /// <returns>List of key value task</returns>
-    public List<KeyValuePair<Task<T>, TimeSpan>> Measure<T>(Task<T>[] tasks)
+    public List<TaskMetric<T>> Measure<T>(Task<T>[] tasks)
     {
-      List<KeyValuePair<Task<T>, TimeSpan>> times = new List<KeyValuePair<Task<T>, TimeSpan>>();
+      List<TaskMetric<T>> times = new List<TaskMetric<T>>();
       Stopwatch stopwatch = new Stopwatch();
       stopwatch.Start();
       while (tasks.Length > 0)
       {
         int index = Task.WaitAny(tasks);
         Task<T> completed = tasks[index];
-        times.Add(new KeyValuePair<Task<T>, TimeSpan>(completed, stopwatch.Elapsed));
+        times.Add(new TaskMetric<T>(completed, stopwatch.Elapsed));
         List<Task<T>> temp = tasks
           .ToList();
         temp.RemoveAt(index);
@@ -53,15 +53,15 @@ namespace Combine.Sdk.Diagnostics.Performance
     /// <typeparam name="T">Type of task</typeparam>
     /// <param name="tasks">Task array</param>
     /// <returns>List of key value task</returns>
-    public List<KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>> MeasureInParallel<T>(Task<T>[] tasks)
+    public List<TaskMetric<T>> MeasureInParallel<T>(Task<T>[] tasks)
     {
-      List<KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>> times = new List<KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>>();
+      List<TaskMetric<T>> times = new List<TaskMetric<T>>();
       Parallel.ForEach(tasks, task =>
       {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
         task.Wait();
-        times.Add(new KeyValuePair<Task<T>, KeyValuePair<int, TimeSpan>>(task, new KeyValuePair<int, TimeSpan>(Thread.CurrentThread.ManagedThreadId, stopwatch.Elapsed)));
+        times.Add(new TaskMetric<T>(Thread.CurrentThread.ManagedThreadId, task, stopwatch.Elapsed));
         stopwatch.Stop();
       });
       return times;

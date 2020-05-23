@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
 
 namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
@@ -37,14 +38,13 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
     /// <param name="parameters">Sql parameters</param>
     /// <param name="type">Command type</param>
     /// <param name="timeout">Timeout</param>
-    /// <returns>Dynamic dictionary collection</returns>
-    private async Task<ComplexResponse<List<Dictionary<string, dynamic>>>> SqlQuery(string sql, SqlParameter[] parameters = null, CommandType type = CommandType.Text, byte timeout = 30)
+    /// <returns>Result Table list</returns>
+    public async Task<ComplexResponse<List<ResultTable>>> SqlQuery(string sql, SqlParameter[] parameters = null, CommandType type = CommandType.Text, byte timeout = 30)
     {
+      //Verify sql connection string
       if (sql.IsNotValid())
-      {
-        return new ComplexResponse<List<Dictionary<string, dynamic>>>(false, @"The specified sql statement is not a valid to work with string value, your request has been rejected.");
-      }
-      ComplexResponse<List<Dictionary<string, dynamic>>> response;
+        return new ComplexResponse<List<ResultTable>>(false, @"The specified sql statement is not a valid to work with string value, your request has been rejected.");
+      ComplexResponse<List<ResultTable>> response;
       using (SqlConnection connection = new SqlConnection(ConnectinString))
       {
         try
@@ -59,36 +59,49 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
             if (!parameters.IsNotValid())
               command.Parameters.AddRange(parameters);
             //Set timeout wait
-            command.CommandTimeout = timeout;
-            //Read results
+            command.CommandTimeout = timeout <= 0 ? 30 : timeout;
+            //Read results            
             using (SqlDataReader reader = await command.ExecuteReaderAsync())
             {
               //Begin to read if there is any row
               if (reader.HasRows)
               {
-                List<Dictionary<string, dynamic>> results = new List<Dictionary<string, dynamic>>();
-                //Take all entries into an object array
+                List<ResultTable> tables = new List<ResultTable>();
+                int tableIndex = 0;
+                AddTableResult:
+                ResultTable table = new ResultTable(tableIndex);
+                int rowIndex = 0;
+                //Read current result set
                 while (await reader.ReadAsync())
                 {
-                  Dictionary<string, dynamic> data = new Dictionary<string, dynamic>(reader.FieldCount);
+                  //Add the row data
+                  ResultRow row = new ResultRow(rowIndex);
                   for (int x = 0; x < reader.FieldCount; x++)
                   {
+                    //Add cell data
                     string column = reader.GetName(x);
                     column = column.IsNotValid() ? $@"{x}" : column;
-                    object value = reader.GetValue(x);
-                    value = value.Equals(DBNull.Value) ? null : value;
-                    data.Add(column, value);
+                    row.Cells.Add(new ResultCell(rowIndex, x, column, reader.GetValue(x)));
+                    //Add column name
+                    if (rowIndex.Equals(0))
+                      table.Columns.Add(column);
                   }
-                  results.Add(data);
+                  table.Rows.Add(row);
+                  rowIndex++;
                 }
-                response = new ComplexResponse<List<Dictionary<string, dynamic>>>(results);
+                tables.Add(table);
+                tableIndex++;
+                //Read next result set and go back
+                if (await reader.NextResultAsync())
+                  goto AddTableResult;
+                response = new ComplexResponse<List<ResultTable>>(tables);
                 //Close data reader stream
                 reader.Close();
               }
               else
               {
                 //The sql statement has not returned any valid response, use default value.
-                response = new ComplexResponse<List<Dictionary<string, dynamic>>>(false, @"The current sql statement has been executed as requested correctly, however, it did not returned any response.");
+                response = new ComplexResponse<List<ResultTable>>(false, @"The current sql statement has been executed as requested correctly, however, it did not returned any response.");
               }
               //Dispose all reader resources
               reader.Dispose();
@@ -106,7 +119,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
         }
         catch (Exception ex)
         {
-          response = new ComplexResponse<List<Dictionary<string, dynamic>>>(ex);
+          response = new ComplexResponse<List<ResultTable>>(ex);
         }
         connection.Dispose();
       }
@@ -120,8 +133,8 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
     /// <param name="name">Stored procedure's name</param>
     /// <param name="parameters">Sql parameters</param>
     /// <param name="timeout">Timeout</param>
-    /// <returns>Dynamic dictionary collection</returns>
-    public async Task<ComplexResponse<List<Dictionary<string, dynamic>>>> StoredProcedure(string name, SqlParameter[] parameters = null, byte timeout = 30)
+    /// <returns>Result Table list</returns>
+    public async Task<ComplexResponse<List<ResultTable>>> StoredProcedure(string name, SqlParameter[] parameters = null, byte timeout = 30)
       => await SqlQuery(name, parameters, CommandType.StoredProcedure, timeout);
 
     /// <summary>
@@ -130,8 +143,8 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
     /// <param name="sql">Sql query</param>
     /// <param name="parameters">Sql parameters</param>
     /// <param name="timeout">Timeout</param>
-    /// <returns>Dynamic dictionary collection</returns>
-    public async Task<ComplexResponse<List<Dictionary<string, dynamic>>>> Query(string sql, SqlParameter[] parameters = null, byte timeout = 15)
+    /// <returns>Result Table list</returns>
+    public async Task<ComplexResponse<List<ResultTable>>> Query(string sql, SqlParameter[] parameters = null, byte timeout = 15)
       => await SqlQuery(sql, parameters, CommandType.Text, timeout);
   }
 }

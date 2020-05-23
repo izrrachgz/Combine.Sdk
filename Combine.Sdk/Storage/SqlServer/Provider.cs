@@ -140,11 +140,12 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
         {
           new SqlParameter(@"@Id",id)
         };
-        ComplexResponse<List<Dictionary<string, dynamic>>> commandResult = await command.Query(sql, parameters);
+        ComplexResponse<List<ResultTable>> commandResult = await command.Query(sql, parameters);
         if (commandResult.Correct)
         {
           T model = commandResult.Model
             .FirstOrDefault()
+            .Rows.ElementAt(0)
             .ToEntity<T>();
           response = new ComplexResponse<T>(model);
         }
@@ -438,14 +439,13 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
         //Params added
         SqlParameter[] parameters = parameterList.ToArray();
         //Count results
-        ComplexResponse<List<Dictionary<string, dynamic>>> resultCount = await command.Query(sqlCount.ToString(), parameters);
+        ComplexResponse<List<ResultTable>> resultCount = await command.Query(sqlCount.ToString(), parameters);
         if (resultCount.Correct)
         {
           //Get the total records
           long total = resultCount.Model
-            .Where(r => r.ContainsKey(@"Total") && r[@"Total"] is long)
-            .Select(r => r[@"Total"])
-            .FirstOrDefault();
+            .First()
+            .GetFirstResult<long>(@"Total");
           //Calculate the pagination size by the given total records
           pagination.Calculate(total);
           //Sql select instance
@@ -467,11 +467,11 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
             .Append($@"Offset {pagination.RequestedIndex * pagination.PageSize} Rows ")
             .Append($@"Fetch Next {pagination.PageSize} Rows Only;");
           //Page result
-          ComplexResponse<List<Dictionary<string, dynamic>>> resultPage = await command.Query(sqlSelect.ToString(), parameters);
+          ComplexResponse<List<ResultTable>> resultPage = await command.Query(sqlSelect.ToString(), parameters);
           if (resultPage.Correct)
           {
             //Create the page reference
-            PaginatedCollection<T> page = new PaginatedCollection<T>(pagination, resultPage.Model.ToEntities<T>());
+            PaginatedCollection<T> page = new PaginatedCollection<T>(pagination, resultPage.Model.First().ToEntities<T>());
             //Create response
             response = new ComplexResponse<PaginatedCollection<T>>(page);
           }

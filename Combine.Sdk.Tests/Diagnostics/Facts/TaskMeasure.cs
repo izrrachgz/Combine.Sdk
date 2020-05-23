@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Combine.Sdk.Diagnostics.Performance;
 using Combine.Sdk.Extensions.CommonObjects;
+using Combine.Sdk.Diagnostics.Definitions.Models;
 
 namespace Combine.Sdk.Tests.Diagnostics.TaskPerformance.Tests.Facts
 {
@@ -39,10 +40,10 @@ namespace Combine.Sdk.Tests.Diagnostics.TaskPerformance.Tests.Facts
       TaskMeasure performance = new TaskMeasure();
       Stopwatch st = new Stopwatch();
       st.Start();
-      List<KeyValuePair<Task<int>, TimeSpan>> result = performance.Measure(tasks);
+      List<TaskMetric<int>> result = performance.Measure(tasks);
       st.Stop();
       TimeSpan sum = TimeSpan.FromMilliseconds(result
-        .Select(r => r.Value)
+        .Select(r => r.Elapsed)
         .Sum(t => t.TotalMilliseconds));
       Assert.True(!result.IsNotValid());
     }
@@ -62,10 +63,10 @@ namespace Combine.Sdk.Tests.Diagnostics.TaskPerformance.Tests.Facts
       TaskMeasure performance = new TaskMeasure();
       Stopwatch st = new Stopwatch();
       st.Start();
-      List<KeyValuePair<Task<int>, KeyValuePair<int, TimeSpan>>> result = performance.MeasureInParallel(tasks);
+      List<TaskMetric<int>> result = performance.MeasureInParallel(tasks);
       st.Stop();
       TimeSpan sum = TimeSpan.FromMilliseconds(result
-        .Select(r => r.Value.Value)
+        .Select(r => r.Elapsed)
         .Sum(t => t.TotalMilliseconds));
       Assert.True(!result.IsNotValid());
     }
