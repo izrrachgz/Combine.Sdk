@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using Combine.Sdk.Data.Representation.Paged;
+using Combine.Sdk.Data.Definitions.Paged;
 
 namespace Combine.Sdk.Tests.Data.Representation.Facts.Paged
 {

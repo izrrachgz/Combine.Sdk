@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using Combine.Sdk.Data.Representation.Paged;
-using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Data.Definitions.Paged;
+using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 
 namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces

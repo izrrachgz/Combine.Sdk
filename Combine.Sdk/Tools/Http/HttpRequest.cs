@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Combine.Sdk.Tools.Http.Models;
 using Combine.Sdk.Extensions.CommonObjects;
-using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Data.Definitions.Response;
 
 namespace Combine.Sdk.Tools.Http
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Combine.Sdk.Data.Representation.Paged
+namespace Combine.Sdk.Data.Definitions.Paged
 {
   /// <summary>
   /// Represent a page request data model

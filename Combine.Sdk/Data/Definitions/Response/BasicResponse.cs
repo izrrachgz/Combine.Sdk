@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Combine.Sdk.Data.Representation.Response
+namespace Combine.Sdk.Data.Definitions.Response
 {
   /// <summary>
   /// Represents the most basic process-response

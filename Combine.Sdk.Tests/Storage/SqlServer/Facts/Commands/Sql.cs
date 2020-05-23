@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 

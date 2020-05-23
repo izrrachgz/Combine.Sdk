@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using Combine.Sdk.Extensions.CommonObjects;
+using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
 namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
 {
@@ -70,5 +73,36 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
     /// <returns>Casted cell value</returns>
     public T GetCellValue<T>(int index) where T : struct
     => Cells.Count - 1 >= index ? (T)Cells.ElementAt(index).Value : default(T);
+
+    /// <summary>
+    /// Converts a result row into a entity
+    /// class instance
+    /// </summary>
+    /// <typeparam name="T">Entity Type</typeparam>
+    /// <param name="row">Row reference</param>
+    /// <returns>Entity</returns>
+    public T ToEntity<T>() where T : class, IEntity, new()
+    {
+      if (Cells.IsNotValid())
+        return default(T);
+      T entity = new T();
+      Type type = entity.GetType();
+      string[] properties = entity.GetPropertyNames();
+      string[] columns = Cells
+        .Select(c => c.ColumnName)
+        .ToArray();
+      foreach (string column in properties)
+      {
+        if (!columns.Contains(column))
+          continue;
+        object value = Cells
+          .Where(c => c.ColumnName.Equals(column))
+          .Select(c => c.Value)
+          .FirstOrDefault();
+        value = value == DBNull.Value ? null : value;
+        type.GetProperty(column).SetValue(entity, value);
+      }
+      return entity;
+    }
   }
 }

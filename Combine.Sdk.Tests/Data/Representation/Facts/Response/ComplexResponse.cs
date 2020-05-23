@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Data.Definitions.Response;
 
 namespace Combine.Sdk.Tests.Data.Representation.Facts.Response
 {

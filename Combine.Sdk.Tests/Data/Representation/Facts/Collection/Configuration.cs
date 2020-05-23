@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using Combine.Sdk.Data.Representation.Collection;
+using Combine.Sdk.Data.Definitions.Collection;
 
 namespace Combine.Sdk.Tests.Data.Representation.Facts.Collection
 {

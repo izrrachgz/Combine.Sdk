@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Combine.Sdk.Extensions.Json;
 using Combine.Sdk.Extensions.CommonObjects;
-using Combine.Sdk.Data.Representation.Response;
-using Combine.Sdk.Data.Representation.Collection;
+using Combine.Sdk.Data.Definitions.Response;
+using Combine.Sdk.Data.Definitions.Collection;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
 namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions

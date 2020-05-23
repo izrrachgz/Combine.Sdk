@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
-using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
 

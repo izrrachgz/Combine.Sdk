@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using Combine.Sdk.Extensions.CommonObjects;
+using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
 namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
 {
@@ -96,5 +99,72 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
     /// <returns>T object</returns>
     public T GetFirstResult<T>(int index, string column) where T : struct
     => Rows.Count - 1 >= index ? Rows.ElementAt(index).GetCellValue<T>(column) : default(T);
+
+    /// <summary>
+    /// Converts the result table into
+    /// a grid list
+    /// </summary>
+    /// <param name="table">Result Table reference</param>
+    /// <returns>Grid list</returns>
+    public List<object[]> ToGrid()
+    {
+      if (Rows.IsNotValid())
+        return new List<object[]>(0);
+      List<object[]> grid = new List<object[]>(Rows.Count);
+      grid.Add(Columns.ToArray());
+      for (int r = 0; r < Rows.Count; r++)
+      {
+        List<object> row = new List<object>(Columns.Count);
+        for (int c = 0; c < Columns.Count; c++)
+          row.Add(Rows.ElementAt(r).Cells.ElementAt(c).Value);
+        grid.Add(row.ToArray());
+      }
+      return grid;
+    }
+
+    /// <summary>
+    /// Converts a result table into an
+    /// collection class instance
+    /// </summary>
+    /// <typeparam name="T">Class Type</typeparam>
+    /// <param name="table">Table reference</param>
+    /// <returns>Class list</returns>
+    public List<T> ToList<T>() where T : class, new()
+    {
+      if (Rows.IsNotValid())
+        return new List<T>(0);
+      T entity = new T();
+      Type type = entity.GetType();
+      string[] properties = entity.GetPropertyNames();
+      string[] columns = Columns.ToArray();
+      List<T> entities = new List<T>(Rows.Count);
+      Rows.ForEach(r =>
+      {
+        T model = new T();
+        foreach (string column in properties)
+        {
+          if (!columns.Contains(column))
+            continue;
+          object value = r.Cells
+            .Where(c => c.ColumnName.Equals(column))
+            .Select(c => c.Value)
+            .FirstOrDefault();
+          value = value == DBNull.Value ? null : value;
+          type.GetProperty(column).SetValue(model, value);
+        }
+        entities.Add(model);
+      });
+      return entities;
+    }
+
+    /// <summary>
+    /// Converts a result table into an
+    /// entity collection class instance
+    /// </summary>
+    /// <typeparam name="T">Entity Type</typeparam>
+    /// <param name="table">Table reference</param>
+    /// <returns>Entity list</returns>
+    public List<T> ToEntities<T>() where T : class, IEntity, new()
+    => ToList<T>();
   }
 }

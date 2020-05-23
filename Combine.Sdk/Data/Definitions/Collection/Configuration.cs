@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Combine.Sdk.Data.Representation.Collection
+namespace Combine.Sdk.Data.Definitions.Collection
 {
   /// <summary>
   /// Represent the most common data model

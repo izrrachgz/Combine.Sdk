@@ -1,9 +1,9 @@
 ﻿using Xunit;
 using System.Threading.Tasks;
 using Combine.Sdk.Extensions.CommonObjects;
-using Combine.Sdk.Data.Representation.Paged;
+using Combine.Sdk.Data.Definitions.Paged;
 using System.Collections.Generic;
-using Combine.Sdk.Data.Representation.Response;
+using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
 using Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Models;
