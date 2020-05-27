@@ -1,9 +1,9 @@
 ﻿using Xunit;
 using System;
 using System.Linq;
-using Combine.Sdk.ToolBox.Repalcer;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Combine.Sdk.ToolBox.Repalcer;
 
 namespace Combine.Sdk.Tests.ToolBox.Replaces.Facts
 {

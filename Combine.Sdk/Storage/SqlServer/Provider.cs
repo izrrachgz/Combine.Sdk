@@ -11,7 +11,6 @@ using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
-using Combine.Sdk.Storage.Definitions.DataProvider.Extensions;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
 namespace Combine.Sdk.Storage.DataProvider.SqlServer
@@ -40,12 +39,12 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     /// <summary>
     /// Plain sql insert statement text
     /// </summary>
-    public string InsertTemplate => $@"Insert Into [dbo].[{TableName}] ([[columns]], [Created], [Modified], [Deleted]) OutPut Inserted.Id Values ([[values]], GetDate(), GetDate(), Null);";
+    public string InsertTemplate => $@"Insert Into [dbo].[{TableName}] ([[columns]], [Created], [Modified], [Deleted]) OutPut Inserted.Id, Inserted.Created Values ([[values]], GetDate(), GetDate(), Null);";
 
     /// <summary>
     /// Plain sql update statement text
     /// </summary>
-    public string UpdateTemplate => $@"Update [dbo].[{TableName}] Set [[values]], [Modified] = GetDate() Where [[conditions]]; Select RowCount_Big() as Total;";
+    public string UpdateTemplate => $@"Update [dbo].[{TableName}] Set [[values]], [Modified] = GetDate() Where [[conditions]]; Select RowCount_Big() as Total, GetDate() as Modified;";
 
     /// <summary>
     /// Creates a new sql server data provider instance
@@ -320,6 +319,14 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
                 //Get the inserted/updated id
                 long id = insert ? result : (result > 0 ? e.Id : 0);
                 ids.Add(id);
+                //Update entity inserted/updated values
+                if (insert)
+                {
+                  e.Id = id;
+                  e.Created = reader.GetDateTime(1);
+                  e.Deleted = null;
+                }
+                e.Modified = reader.GetDateTime(1);
                 reader.Close();
               }
               reader.Dispose();

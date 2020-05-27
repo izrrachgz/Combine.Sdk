@@ -1,8 +1,8 @@
 ﻿using Xunit;
 using System.Linq;
-using Combine.Sdk.ToolBox.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using Combine.Sdk.ToolBox.Tasks;
 
 namespace Combine.Sdk.Tests.ToolBox.Tasks.Facts
 {
