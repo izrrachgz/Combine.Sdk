@@ -9,7 +9,7 @@ using Combine.Sdk.Diagnostics.Performance;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Diagnostics.Definitions.Models;
 
-namespace Combine.Sdk.Tests.Diagnostics.TaskPerformance.Tests.Facts
+namespace Combine.Sdk.Tests.Diagnostics.Performance.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the methods

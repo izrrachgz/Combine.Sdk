@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Combine.Sdk.Data.Definitions.Paged;
 
-namespace Combine.Sdk.Tests.Data.Definitions.Facts.Paged
+namespace Combine.Sdk.Tests.Data.Definitions.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the methods

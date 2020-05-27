@@ -9,7 +9,7 @@ using Combine.Sdk.Data.Definitions.Collection;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 
-namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts.Commands
+namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the methods

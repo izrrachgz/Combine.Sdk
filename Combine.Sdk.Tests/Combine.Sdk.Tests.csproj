@@ -61,8 +61,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Diagnostics\Facts\" />
-    <Folder Include="Diagnostics\Theories\" />
+    <Folder Include="Diagnostics\Performance\Facts\" />
+    <Folder Include="Diagnostics\Performance\Theories\" />
     <Folder Include="Extensions\CommonObjects\Theories\" />
     <Folder Include="Extensions\Excel\" />
     <Folder Include="Extensions\Json\Theories\" />

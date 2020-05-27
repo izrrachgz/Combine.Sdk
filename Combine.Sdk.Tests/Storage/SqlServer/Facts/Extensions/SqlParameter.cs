@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts.Extensions
+namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the sql parameter

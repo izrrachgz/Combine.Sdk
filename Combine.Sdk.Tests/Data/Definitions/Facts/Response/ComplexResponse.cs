@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Combine.Sdk.Data.Definitions.Response;
 
-namespace Combine.Sdk.Tests.Data.Definitions.Facts.Response
+namespace Combine.Sdk.Tests.Data.Definitions.Facts
 {
   /// <summary>
   /// Provides a mechanism to test all the methods
