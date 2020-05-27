@@ -24,6 +24,11 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     string[] Columns { get; }
 
     /// <summary>
+    /// Must be all the entity string type columns
+    /// </summary>
+    string[] SearchColumns { get; }
+
+    /// <summary>
     /// Must be the repository connection string
     /// </summary>
     string ConnectionString { get; }

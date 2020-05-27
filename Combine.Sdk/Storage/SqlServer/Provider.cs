@@ -2,11 +2,12 @@
 using System.Data;
 using System.Text;
 using System.Linq;
+using System.Reflection;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Paged;
+using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
@@ -32,6 +33,11 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     public string[] Columns { get; }
 
     /// <summary>
+    /// Entity's string type search columns
+    /// </summary>
+    public string[] SearchColumns { get; }
+
+    /// <summary>
     /// Repository connection string
     /// </summary>
     public string ConnectionString { get; }
@@ -53,10 +59,17 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     public SqlServerDataProvider(string connectionString)
     {
       ConnectionString = connectionString;
-      T entity = new T();
-      Columns = entity.GetPropertyNames();
-      Type entityType = entity.GetType();
+      Type entityType = typeof(T);
       TableName = entityType.Name;
+      PropertyInfo[] info = entityType.GetProperties();
+      Columns = info
+        .Where(p => p.PropertyType.Namespace.StartsWith(@"System") || p.PropertyType.IsEnum)
+        .Select(p => p.Name)
+        .ToArray();
+      SearchColumns = info
+        .Where(p => p.PropertyType.Name.Equals(@"String"))
+        .Select(p => p.Name)
+        .ToArray();
     }
 
     /// <summary>
@@ -409,10 +422,9 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
         if (!pagination.IncludeAll)
           defaultConditions.Add(@"[Deleted] Is Null");
         //Include keyword search inside searchable columns
-        if (!pagination.KeyWords.IsNotValid())
+        if (!pagination.KeyWords.IsNotValid() && !SearchColumns.IsNotValid())
         {
-          string[] searchColumns = new T().GetStringPropertyNames();
-          defaultConditions.Add($@"[{string.Join(@"] Like '%' + @SearchKeyWord + '%' Or [", searchColumns)}] Like '%' + @SearchKeyWord + '%'");
+          defaultConditions.Add($@"[{string.Join(@"] Like '%' + @SearchKeyWord + '%' Or [", SearchColumns)}] Like '%' + @SearchKeyWord + '%'");
           parameterList.Add(new SqlParameter(@"@SearchKeyWord", pagination.KeyWords));
         }
         //Include date range start
