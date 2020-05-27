@@ -27,16 +27,17 @@ namespace Combine.Sdk.ToolBox.Html
     private string Headers(IEnumerable<string> columns)
     {
       StringBuilder sb = new StringBuilder(@"<thead class='table-header'>");
-      sb.AppendLine(@"<tr>");
+      sb.Append(@"<tr class='table-header-row'>");
       int index = 0;
       foreach (string column in columns)
       {
-        sb.AppendLine($@"<th data-key='{index}' class='table-header-cell'>")
+        sb.Append($@"<th data-key='{index}' class='table-header-cell'>")
           .Append(column)
-          .AppendLine(@"</th>");
+          .Append(@"</th>");
         index++;
       }
-      sb.AppendLine(@"</tr>");
+      sb.Append(@"</tr>")
+        .Append(@"</thead>");
       return sb.ToString();
     }
 
@@ -51,16 +52,17 @@ namespace Combine.Sdk.ToolBox.Html
       int index = 0;
       foreach (object[] row in rows)
       {
-        sb.AppendLine($@"<tr class='table-body-row' data-key='{index}'>");
+        sb.Append($@"<tr class='table-body-row' data-key='{index}'>");
         foreach (object value in row)
         {
-          sb.AppendLine(@"<td class='table-body-cell'>")
+          sb.Append(@"<td class='table-body-cell'>")
             .Append(value)
-            .AppendLine(@"</td>");
+            .Append(@"</td>");
         }
-        sb.AppendLine(@"</tr>");
+        sb.Append(@"</tr>");
         index++;
       }
+      sb.Append(@"</tbody>");
       return sb.ToString();
     }
 
@@ -72,15 +74,15 @@ namespace Combine.Sdk.ToolBox.Html
     /// <returns>Html Table</returns>
     public string HtmlTable(ResultTable table, bool includeHeaders = true)
     {
-      StringBuilder grid = new StringBuilder(@"<table class='table'>");
+      StringBuilder grid = new StringBuilder(@"<table class='grid-table'>");
       List<object[]> rows = table.ToGrid();
       if (includeHeaders)
       {
         rows.RemoveAt(0);
-        grid.AppendLine(Headers(table.Columns));
+        grid.Append(Headers(table.Columns));
       }
-      grid.AppendLine(Body(rows))
-      .AppendLine(@"</table>");
+      grid.Append(Body(rows))
+      .Append(@"</table>");
       return grid.ToString();
     }
 
@@ -93,7 +95,7 @@ namespace Combine.Sdk.ToolBox.Html
     /// <returns>Html Table</returns>
     public string HtmlTable(SheetData sheet, bool firstRowAsHeaders = true)
     {
-      StringBuilder grid = new StringBuilder(@"<table class='table'>");
+      StringBuilder grid = new StringBuilder(@"<table class='grid-table'>");
       List<object[]> rows = sheet.GetData();
       if (firstRowAsHeaders)
       {
@@ -101,10 +103,10 @@ namespace Combine.Sdk.ToolBox.Html
              .Select(c => c.ToString())
              .ToArray();
         rows.RemoveAt(0);
-        grid.AppendLine(Headers(columns));
+        grid.Append(Headers(columns));
       }
-      grid.AppendLine(Body(rows))
-      .AppendLine(@"</table>");
+      grid.Append(Body(rows))
+      .Append(@"</table>");
       return grid.ToString();
     }
   }

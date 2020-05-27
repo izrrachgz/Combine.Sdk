@@ -1,13 +1,16 @@
 ﻿using Xunit;
+using System;
 using System.Threading.Tasks;
-using Combine.Sdk.Extensions.CommonObjects;
-using Combine.Sdk.Data.Definitions.Paged;
 using System.Collections.Generic;
+using Combine.Sdk.Extensions.Json;
+using Combine.Sdk.Data.Definitions.Paged;
+using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
+using Combine.Sdk.Data.Definitions.Collection;
+using Combine.Sdk.Storage.DataProvider.SqlServer;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
 using Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Models;
-using Combine.Sdk.Storage.DataProvider.SqlServer;
 
 namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
 {
@@ -17,6 +20,14 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
   /// </summary>
   public class FactSqlDataProviderTests
   {
+    /// <summary>
+    /// Sql connection string
+    /// </summary>
+    private string ConnectionString { get; }
+
+    /// <summary>
+    /// Sql Data Provider
+    /// </summary>
     private SqlServerDataProvider<TestingEntity> DataProvider { get; }
 
     /// <summary>
@@ -24,7 +35,12 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     /// </summary>
     public FactSqlDataProviderTests()
     {
-      DataProvider = new SqlServerDataProvider<TestingEntity>(@"Data Source =.\SQLEXPRESS;Initial Catalog = SqlDataProvider.Tests;Integrated Security = true; MultipleActiveResultSets = true;");
+      JsonLoader<Configuration> config = new JsonLoader<Configuration>($@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json");
+      config.Load()
+        .Wait();
+      ConnectionString = config.Instance.Values
+        .GetFirst<string>(@"ConnectionString");
+      DataProvider = new SqlServerDataProvider<TestingEntity>(ConnectionString);
     }
 
     /// <summary>
