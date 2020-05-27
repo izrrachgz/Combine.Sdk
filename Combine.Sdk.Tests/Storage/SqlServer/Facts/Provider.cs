@@ -98,7 +98,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public async Task Delete()
     {
-      ComplexResponse<bool> result = await DataProvider.Delete(10);
+      BasicResponse result = await DataProvider.Delete(10);
       Assert.True(result.Correct);
     }
 
@@ -110,7 +110,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public async Task DeleteList()
     {
-      ComplexResponse<bool> result = await DataProvider.Delete(new List<long>(1) { 10 });
+      BasicResponse result = await DataProvider.Delete(new List<long>(1) { 10 });
       Assert.True(result.Correct);
     }
 
@@ -126,7 +126,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
       {
         Name = @"Testing"
       };
-      ComplexResponse<long> result = await DataProvider.Save(entity);
+      BasicResponse result = await DataProvider.Save(entity);
       Assert.True(result.Correct);
     }
 
@@ -143,7 +143,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
         new TestingEntity(){Id = 12, Name = @"Perpetual Testing Edited"},
         new TestingEntity(){Name = @"Perpetual Testing New"},
       };
-      ComplexResponse<List<long>> result = await DataProvider.Save(entities);
+      BasicResponse result = await DataProvider.Save(entities);
       Assert.True(result.Correct);
     }
 
@@ -157,7 +157,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     public async Task SaveByStandAlone()
     {
       TestingEntity entity = new TestingEntity() { Name = @"New Saved by standalone method" };
-      ComplexResponse<long> result = await entity.Save();
+      BasicResponse result = await entity.Save();
       Assert.True(result.Correct);
     }
 
@@ -175,7 +175,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
         new TestingEntity(){Name = @"New list Saved by standalone method 1"},
         new TestingEntity(){Name = @"New list Saved by standalone method 2"},
       };
-      ComplexResponse<List<long>> result = await entities.Save();
+      BasicResponse result = await entities.Save();
       Assert.True(result.Correct);
     }
 

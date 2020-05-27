@@ -70,7 +70,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// <param name="id">Primary key</param>
     /// <param name="columns">Columns to include in selection</param>
     /// <returns>ComplexResponse T</returns>
-    Task<ComplexResponse<T>> GetFirst(long id, string[] columns);      
+    Task<ComplexResponse<T>> GetFirst(long id, string[] columns);
 
     /// <summary>
     /// Must mark the entity as deleted by updating
@@ -78,8 +78,8 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// moment
     /// </summary>
     /// <param name="id">Primary key</param>
-    /// <returns>ComplesResponse</returns>
-    Task<ComplexResponse<bool>> Delete(long id, object transaction);
+    /// <returns>BasicResponse</returns>
+    Task<BasicResponse> Delete(long id, object transaction);
 
     /// <summary>
     /// Must mark all the entities as deleted by updating
@@ -88,28 +88,32 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// </summary>
     /// <param name="ids">Primary key list</param>
     /// <param name="transaction">Shared transaction</param>
-    /// <returns>ComplexResponse</returns>
-    Task<ComplexResponse<bool>> Delete(List<long> ids, object transaction);
+    /// <returns>BasicResponse</returns>
+    Task<BasicResponse> Delete(List<long> ids, object transaction);
 
     /// <summary>
     /// Must save all the entity changes
     /// whether they need to be inserted or
-    /// updated
+    /// updated and update the id, created
+    /// and modified properties after the 
+    /// saving operation
     /// </summary>
     /// <param name="entity">Entity reference</param>
     /// <param name="transaction">Shared transaction</param>
-    /// <returns>ComplexResponse of primary key</returns>
-    Task<ComplexResponse<long>> Save(T entity, object transaction);
+    /// <returns>BasicResponse</returns>
+    Task<BasicResponse> Save(T entity, object transaction);
 
     /// <summary>
     /// Must save all the entities changes
     /// whether they need to be inserted or
-    /// updated
+    /// updated and update the id, created
+    /// and modified properties after the 
+    /// saving operation
     /// </summary>
     /// <param name="entities">Entity list reference</param>
     /// <param name="transaction">Shared transaction</param>
-    /// <returns>ComplexResponse list of primary keys</returns>
-    Task<ComplexResponse<List<long>>> Save(List<T> entities, object transaction);
+    /// <returns>BasicResponse</returns>
+    Task<BasicResponse> Save(List<T> entities, object transaction);
 
     /// <summary>
     /// Must retrieve all the entities that match with the

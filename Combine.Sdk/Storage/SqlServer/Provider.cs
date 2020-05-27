@@ -166,11 +166,11 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     /// </summary>
     /// <param name="id">Primary key</param>
     /// <returns>ComplexResponse</returns>
-    public async Task<ComplexResponse<bool>> Delete(long id, object transaction = null)
+    public async Task<BasicResponse> Delete(long id, object transaction = null)
     {
       //Verify entity primery key
       if (id <= 0)
-        return new ComplexResponse<bool>(false, @"The specified primary key is not valid for delete operation.");
+        return new BasicResponse(false, @"The specified primary key is not valid for delete operation.");
       return await Delete(new List<long>(1) { id }, transaction);
     }
 
@@ -182,15 +182,15 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     /// <param name="ids">Primary key list</param>
     /// <param name="transaction">Shared transaction</param>
     /// <returns>ComplexResponse</returns>
-    public async Task<ComplexResponse<bool>> Delete(List<long> ids, object transaction = null)
+    public async Task<BasicResponse> Delete(List<long> ids, object transaction = null)
     {
       //Verify entities primary key list
       if (ids.IsNotValid())
-        return new ComplexResponse<bool>(false, @"The primary key list specified is not valid for delete operation.");
+        return new BasicResponse(false, @"The primary key list specified is not valid for delete operation.");
       //Verify object transaction instance
       if (transaction != null && !(transaction is SqlTransaction))
-        return new ComplexResponse<bool>(false, @"The specified shared transaction is not valid for delete operation.");
-      ComplexResponse<bool> response;
+        return new BasicResponse(false, @"The specified shared transaction is not valid for delete operation.");
+      BasicResponse response;
       try
       {
         SqlTransaction tran = transaction as SqlTransaction;
@@ -213,7 +213,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
         using (SqlCommand command = new SqlCommand(sql, tran.Connection, tran))
         {
           int deleted = await command.ExecuteNonQueryAsync();
-          response = new ComplexResponse<bool>(deleted.Equals(ids.Count));
+          response = new BasicResponse(deleted.Equals(ids.Count));
           if (dispose)
           {
             if (response.Correct)
@@ -246,14 +246,13 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     /// <param name="entity">Entity reference</param>
     /// <param name="transaction">Shared transaction</param>
     /// <returns>ComplexResponse Primary key</returns>
-    public async Task<ComplexResponse<long>> Save(T entity, object transaction = null)
+    public async Task<BasicResponse> Save(T entity, object transaction = null)
     {
       //Verify entities state before insert operation
       if (entity == null)
-        return new ComplexResponse<long>(false, @"The specified entity is not valid for saving operation.");
+        return new BasicResponse(false, @"The specified entity is not valid for saving operation.");
       //Save all changes
-      ComplexResponse<List<long>> result = await Save(new List<T>(1) { entity }, transaction);
-      return new ComplexResponse<long>(result.Model.FirstOrDefault());
+      return await Save(new List<T>(1) { entity }, transaction);
     }
 
     /// <summary>
@@ -263,15 +262,15 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     /// <param name="entities">Entity list reference</param>
     /// <param name="transaction">Shared transaction</param>
     /// <returns>ComplexResponse Primary key list</returns>
-    public async Task<ComplexResponse<List<long>>> Save(List<T> entities, object transaction = null)
+    public async Task<BasicResponse> Save(List<T> entities, object transaction = null)
     {
       //Verify entities state before insert operation
       if (entities.IsNotValid())
-        return new ComplexResponse<List<long>>(false, @"The specified entity list is not valid for saving operation.");
+        return new BasicResponse(false, @"The specified entity list is not valid for saving operation.");
       //Verify object transaction instance
       if (transaction != null && !(transaction is SqlTransaction))
-        return new ComplexResponse<List<long>>(false, @"The specified shared transaction is not valid for delete operation.");
-      ComplexResponse<List<long>> response;
+        return new BasicResponse(false, @"The specified shared transaction is not valid for delete operation.");
+      BasicResponse response;
       try
       {
         SqlTransaction tran = transaction as SqlTransaction;
@@ -343,8 +342,10 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
             else
               tran.Commit();
           }
-          //Retrieve the ids inserted
-          response = new ComplexResponse<List<long>>(ids);
+          //Make sure all the inserted/updates ids are valid
+          response = new BasicResponse(!ids.Any(i => i.Equals(0)));
+          ids.Clear();
+          ids.TrimExcess();
           command.Dispose();
         }
         //Dispose all the resources if the transaction is not supplied
@@ -358,7 +359,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<List<long>>(ex);
+        response = new BasicResponse(ex);
       }
       return response;
     }

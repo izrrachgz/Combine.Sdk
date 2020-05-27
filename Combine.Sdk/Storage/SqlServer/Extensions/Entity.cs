@@ -21,15 +21,15 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
     /// <typeparam name="T">Entity type</typeparam>
     /// <param name="entity">Entity reference</param>
     /// <returns>ComplexResponse Primary key inserted/updated</returns>
-    public static async Task<ComplexResponse<long>> Save<T>(this T entity, SqlTransaction transaction = null) where T : class, IEntity, new()
+    public static async Task<BasicResponse> Save<T>(this T entity, SqlTransaction transaction = null) where T : class, IEntity, new()
     {
       //Verify entity state
       if (entity == null)
-        return new ComplexResponse<long>(false, @"The specified entity is not valid for save operation.");
+        return new BasicResponse(false, @"The specified entity is not valid for save operation.");
       string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json";
       //Verify configuration file
       if (!configUrl.IsFilePath(out Uri uri))
-        return new ComplexResponse<long>(false, @"The configuration file is not present, the task could not be completed as requested.");
+        return new BasicResponse(false, @"The configuration file is not present, the task could not be completed as requested.");
       JsonLoader<Configuration> jsonLoader = new JsonLoader<Configuration>(configUrl);
       await jsonLoader.Load();
       Configuration configuration = jsonLoader.Instance;
@@ -37,7 +37,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
         .GetFirst<string>(@"ConnectionString");
       //Verify connection string value
       if (connectionString.IsNotValid())
-        return new ComplexResponse<long>(false, @"The specified connection string in the configuration file is not valid for its use, the task could not be completed as requested.");
+        return new BasicResponse(false, @"The specified connection string in the configuration file is not valid for its use, the task could not be completed as requested.");
       //Save entity
       SqlServerDataProvider<T> provider = new SqlServerDataProvider<T>(connectionString);
       return await provider.Save(entity, transaction);
@@ -50,7 +50,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
     /// <typeparam name="T">Entity type</typeparam>
     /// <param name="entities">Entity list reference</param>
     /// <returns>ComplexResponse list of Primary key inserted/updated</returns>
-    public static async Task<ComplexResponse<List<long>>> Save<T>(this List<T> entities, SqlTransaction transaction = null) where T : class, IEntity, new()
+    public static async Task<BasicResponse> Save<T>(this List<T> entities, SqlTransaction transaction = null) where T : class, IEntity, new()
     {
       //Verify entity state
       if (entities.IsNotValid())
