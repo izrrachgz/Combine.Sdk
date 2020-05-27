@@ -15,12 +15,12 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Facts
   /// Provides a mechanism to test all the SpreadSheet
   /// extension methods availables
   /// </summary>
-  public class FactSpreadSheetTests
+  public class SpreadSheetTests
   {
     /// <summary>
     /// Creates a new instance of List tests
     /// </summary>
-    public FactSpreadSheetTests()
+    public SpreadSheetTests()
     {
 
     }

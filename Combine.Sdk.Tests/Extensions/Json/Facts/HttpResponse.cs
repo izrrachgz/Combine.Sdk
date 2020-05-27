@@ -12,12 +12,12 @@ namespace Combine.Sdk.Tests.Extensions.Json.Facts
   /// Provides a mechanism to test all the json
   /// extension methods availables
   /// </summary>
-  public class FactHttpResponseTests
+  public class HttpResponseTests
   {
     /// <summary>
     /// Creates a new instance of HttpResponseMessage tests
     /// </summary>
-    public FactHttpResponseTests()
+    public HttpResponseTests()
     {
 
     }

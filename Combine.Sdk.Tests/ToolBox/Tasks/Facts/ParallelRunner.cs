@@ -10,12 +10,12 @@ namespace Combine.Sdk.Tests.ToolBox.Tasks.Facts
   /// Provides a mechanism to test all the methods
   /// in the ParallelRunner instance available
   /// </summary>
-  public class FactParallelRunnerTests
+  public class ParallelRunnerTests
   {
     /// <summary>
     /// Creates a new parallel runner tests instance
     /// </summary>
-    public FactParallelRunnerTests()
+    public ParallelRunnerTests()
     {
 
     }

@@ -8,12 +8,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for Byte type objects
   /// </summary>
-  public class FactByteTests
+  public class ByteTests
   {
     /// <summary>
     /// Creates a new instance of Fact Byte Tests
     /// </summary>
-    public FactByteTests()
+    public ByteTests()
     {
 
     }

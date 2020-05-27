@@ -7,12 +7,12 @@ namespace Combine.Sdk.Tests.Data.Definitions.Facts
   /// Provides a mechanism to test all the methods
   /// in the Pagination instance available
   /// </summary>
-  public class FactPaginationTests
+  public class PaginationTests
   {
     /// <summary>
     /// Creates a new pagination tests instance
     /// </summary>
-    public FactPaginationTests()
+    public PaginationTests()
     {
 
     }

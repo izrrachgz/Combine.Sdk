@@ -15,12 +15,12 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Facts
   /// Provides a mechanism to test all the SheetData
   /// extension methods availables
   /// </summary>
-  public class FactSheetDataTests
+  public class SheetDataTests
   {
     /// <summary>
     /// Creates a new sheet data test instance
     /// </summary>
-    public FactSheetDataTests()
+    public SheetDataTests()
     {
     }
 

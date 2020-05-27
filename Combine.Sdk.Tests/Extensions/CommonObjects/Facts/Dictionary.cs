@@ -8,12 +8,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for Dictionary type objects
   /// </summary>
-  public class FactDictionaryTests
+  public class DictionaryTests
   {
     /// <summary>
     /// Creates a new instance of Fact Dictionary Tests
     /// </summary>
-    public FactDictionaryTests()
+    public DictionaryTests()
     {
 
     }

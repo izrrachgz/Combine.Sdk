@@ -11,12 +11,12 @@ namespace Combine.Sdk.Tests.Extensions.Json.Facts
   /// Provides a mechanism to test all the json string
   /// extension methods availables
   /// </summary>
-  public class FactStringTests
+  public class StringTests
   {
     /// <summary>
     /// Creates a new string tests instance
     /// </summary>
-    public FactStringTests()
+    public StringTests()
     {
 
     }

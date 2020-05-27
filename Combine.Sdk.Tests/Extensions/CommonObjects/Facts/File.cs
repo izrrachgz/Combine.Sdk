@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for File type objects
   /// </summary>
-  public class FactFileTests
+  public class FileTests
   {
     /// <summary>
     /// Creates a new instance of Fact File Tests
     /// </summary>
-    public FactFileTests()
+    public FileTests()
     {
 
     }

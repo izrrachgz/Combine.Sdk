@@ -16,7 +16,7 @@ namespace Combine.Sdk.Tests.ToolBox.Http.Facts
   /// <summary>
   /// 
   /// </summary>
-  public class FactHttpRequestTests
+  public class HttpRequestTests
   {
     /// <summary>
     /// 
@@ -31,7 +31,7 @@ namespace Combine.Sdk.Tests.ToolBox.Http.Facts
     /// <summary>
     /// 
     /// </summary>
-    public FactHttpRequestTests()
+    public HttpRequestTests()
     {
       JsonLoader<Configuration> config = new JsonLoader<Configuration>($@"{AppDomain.CurrentDomain.BaseDirectory}Tools\Http\HttpConfig.json");
       config.Load()

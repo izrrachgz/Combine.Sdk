@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for TimeSpan type objects
   /// </summary>
-  public class FactTimeSpanTests
+  public class TimeSpanTests
   {
     /// <summary>
     /// Creates a new instance of Fact TimeSpan Tests
     /// </summary>
-    public FactTimeSpanTests()
+    public TimeSpanTests()
     {
     }
 

@@ -12,12 +12,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for HttpResponseMessage type objects
   /// </summary>
-  public class FactHttpResponseTests
+  public class HttpResponseTests
   {
     /// <summary>
     /// Creates a new instance of Fact HttpResponseMessage Tests
     /// </summary>
-    public FactHttpResponseTests()
+    public HttpResponseTests()
     {
 
     }

@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for Stream type objects
   /// </summary>
-  public class FactStreamTests
+  public class StreamTests
   {
     /// <summary>
     /// Creates a new instance of Fact Stream Tests
     /// </summary>
-    public FactStreamTests()
+    public StreamTests()
     {
 
     }

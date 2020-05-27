@@ -8,12 +8,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for List type objects
   /// </summary>
-  public class FactListTests
+  public class ListTests
   {
     /// <summary>
     /// Creates a new instance of Fact List Tests
     /// </summary>
-    public FactListTests()
+    public ListTests()
     {
 
     }

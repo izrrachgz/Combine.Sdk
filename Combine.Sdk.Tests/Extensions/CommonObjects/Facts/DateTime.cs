@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for DateTime type objects
   /// </summary>
-  public class FactDateTimeTests
+  public class DateTimeTests
   {
     /// <summary>
     /// Creates a new instance of Fact DateTime Tests
     /// </summary>
-    public FactDateTimeTests()
+    public DateTimeTests()
     {
 
     }

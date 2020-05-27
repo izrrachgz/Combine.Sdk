@@ -18,7 +18,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
   /// Provides a mechanism to test all the methods
   /// in the SqlDataProvider instance available
   /// </summary>
-  public class FactSqlDataProviderTests
+  public class SqlDataProviderTests
   {
     /// <summary>
     /// Sql connection string
@@ -33,7 +33,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     /// <summary>
     /// Creates a new sql data provider test instance
     /// </summary>
-    public FactSqlDataProviderTests()
+    public SqlDataProviderTests()
     {
       JsonLoader<Configuration> config = new JsonLoader<Configuration>($@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json");
       config.Load()

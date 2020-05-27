@@ -10,12 +10,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for String type objects
   /// </summary>
-  public class FactStringTests
+  public class StringTests
   {
     /// <summary>
     /// Creates a new instance of Fact String Tests
     /// </summary>
-    public FactStringTests()
+    public StringTests()
     {
 
     }

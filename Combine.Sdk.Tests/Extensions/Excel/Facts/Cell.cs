@@ -7,12 +7,12 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Facts
   /// Provides a mechanism to test all the Cell
   /// extension methods availables
   /// </summary>
-  public class FactCellTests
+  public class CellTests
   {
     /// <summary>
     /// Creates a new cell test instance
     /// </summary>
-    public FactCellTests()
+    public CellTests()
     {
 
     }

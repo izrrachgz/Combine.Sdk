@@ -15,12 +15,12 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Facts
   /// Provides a mechanism to test all the Row
   /// extension methods availables
   /// </summary>
-  public class FactRowTests
+  public class RowTests
   {
     /// <summary>
     /// Creates a new row test instance
     /// </summary>
-    public FactRowTests() { }
+    public RowTests() { }
 
     /// <summary>
     /// Proves that the extension method IsNotValid

@@ -8,12 +8,12 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
   /// Provides a mechanism to test all the sql parameter
   /// extension methods availables
   /// </summary>
-  public class FactSqlParameterTests
+  public class SqlParameterTests
   {
     /// <summary>
     /// Creates a new sql parameter tests instance
     /// </summary>
-    public FactSqlParameterTests()
+    public SqlParameterTests()
     {
 
     }

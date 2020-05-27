@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for Uri type objects
   /// </summary>
-  public class FactUriTests
+  public class UriTests
   {
     /// <summary>
     /// Creates a new instance of Fact Uri Tests
     /// </summary>
-    public FactUriTests()
+    public UriTests()
     {
 
     }

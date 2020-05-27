@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for Guid type objects
   /// </summary>
-  public class FactGuidTests
+  public class GuidTests
   {
     /// <summary>
     /// Creates a new instance of Fact Guid Tests
     /// </summary>
-    public FactGuidTests()
+    public GuidTests()
     {
 
     }

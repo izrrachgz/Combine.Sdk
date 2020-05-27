@@ -11,12 +11,12 @@ namespace Combine.Sdk.Tests.Extensions.Word.Facts
   /// Provides a mechanism to test all the list
   /// extension methods availables
   /// </summary>
-  public class FactListTests
+  public class ListTests
   {
     /// <summary>
     /// Creates a new instance of List tests
     /// </summary>
-    public FactListTests()
+    public ListTests()
     {
 
     }

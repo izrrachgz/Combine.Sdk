@@ -8,12 +8,12 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
   /// Provides a mechanism to test all the query condition
   /// extension methods availables
   /// </summary>
-  public class FactQueryConditionTests
+  public class QueryConditionTests
   {
     /// <summary>
     /// Creates a new query condition tests instance
     /// </summary>
-    public FactQueryConditionTests()
+    public QueryConditionTests()
     {
 
     }

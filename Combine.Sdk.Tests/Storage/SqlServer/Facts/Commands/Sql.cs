@@ -15,7 +15,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
   /// Provides a mechanism to test all the methods
   /// in the SqlServerCommand instance available
   /// </summary>
-  public class FactSqlServerCommandTests
+  public class SqlServerCommandTests
   {
     /// <summary>
     /// Sql connection string
@@ -25,7 +25,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     /// <summary>
     /// Creates a new Sql Server Command tests instance
     /// </summary>
-    public FactSqlServerCommandTests()
+    public SqlServerCommandTests()
     {
       JsonLoader<Configuration> config = new JsonLoader<Configuration>($@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json");
       config.Load()

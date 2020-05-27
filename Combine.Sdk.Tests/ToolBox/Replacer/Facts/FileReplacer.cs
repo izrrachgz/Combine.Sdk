@@ -11,12 +11,12 @@ namespace Combine.Sdk.Tests.ToolBox.Replaces.Facts
   /// Provides a mechanism to test all the methods
   /// availables in the file replacer class
   /// </summary>
-  public class FactFileReplacerTests
+  public class FileReplacerTests
   {
     /// <summary>
     /// Creates a new file replacer test instance
     /// </summary>
-    public FactFileReplacerTests()
+    public FileReplacerTests()
     {
 
     }

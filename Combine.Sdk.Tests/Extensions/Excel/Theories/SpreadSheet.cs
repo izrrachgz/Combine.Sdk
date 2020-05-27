@@ -15,12 +15,12 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Theories
   /// Provides a mechanism to test all the list
   /// extension methods availables
   /// </summary>
-  public class TheorieSpreadSheetTests
+  public class SpreadSheetTests
   {
     /// <summary>
     /// Creates a new instance of List tests
     /// </summary>
-    public TheorieSpreadSheetTests()
+    public SpreadSheetTests()
     {
 
     }

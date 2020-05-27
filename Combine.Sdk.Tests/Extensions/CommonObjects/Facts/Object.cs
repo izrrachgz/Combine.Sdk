@@ -9,12 +9,12 @@ namespace Combine.Sdk.Tests.Extensions.CommonObjects.Facts
   /// Provides a mechanism to test all the extension
   /// methods availables for Primitive type objects
   /// </summary>
-  public class FactObjectTests
+  public class ObjectTests
   {
     /// <summary>
     /// Creates a new instance of Fact Object Tests
     /// </summary>
-    public FactObjectTests()
+    public ObjectTests()
     {
 
     }

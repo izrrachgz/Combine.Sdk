@@ -7,12 +7,12 @@ namespace Combine.Sdk.Tests.Data.Definitions.Facts
   /// Provides a mechanism to test all the methods
   /// in the ComplexResponse instance available
   /// </summary>
-  public class FactComplexResponseTests
+  public class ComplexResponseTests
   {
     /// <summary>
     /// Creates a new complex response tests instance
     /// </summary>
-    public FactComplexResponseTests()
+    public ComplexResponseTests()
     {
 
     }

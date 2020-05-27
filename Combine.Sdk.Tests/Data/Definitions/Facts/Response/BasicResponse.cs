@@ -7,12 +7,12 @@ namespace Combine.Sdk.Tests.Data.Definitions.Facts
   /// Provides a mechanism to test all the methods
   /// in the BasicResponse instance available
   /// </summary>
-  public class FactBasicResponseTests
+  public class BasicResponseTests
   {
     /// <summary>
     /// Creates a new basic response tests instance
     /// </summary>
-    public FactBasicResponseTests()
+    public BasicResponseTests()
     {
 
     }
