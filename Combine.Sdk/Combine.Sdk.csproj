@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <Authors>Israel Chavez</Authors>
-    <Description>Por su capacidad de adaptamiento, es un sdk pensado en la agilidad y calidad.</Description>
+    <Description>Por su capacidad de adaptamiento, es un sdk pensado en la agilidad, velocidad y calidad.</Description>
     <Copyright>israel.chavez</Copyright>
   </PropertyGroup>
 
