@@ -39,7 +39,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
     /// <param name="type">Command type</param>
     /// <param name="timeout">Timeout</param>
     /// <returns>Result Table list</returns>
-    public async Task<ComplexResponse<List<ResultTable>>> SqlQuery(string sql, SqlParameter[] parameters = null, CommandType type = CommandType.Text, byte timeout = 30)
+    private async Task<ComplexResponse<List<ResultTable>>> SqlQuery(string sql, SqlParameter[] parameters = null, CommandType type = CommandType.Text, byte timeout = 30)
     {
       //Verify sql connection string
       if (sql.IsNotValid())
