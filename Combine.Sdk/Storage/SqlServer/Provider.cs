@@ -309,6 +309,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
         //Create the sql command reference with the required values
         using (SqlCommand command = new SqlCommand(@"", connection, tran))
         {
+          //Add params if supplied
           if (@params.Any())
             command.Parameters.AddRange(@params);
           //Inserted ids

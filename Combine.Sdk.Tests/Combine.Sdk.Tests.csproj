@@ -67,7 +67,6 @@
     <Folder Include="Extensions\Excel\" />
     <Folder Include="Extensions\Json\Theories\" />
     <Folder Include="Extensions\Word\Theories\" />
-    <Folder Include="Storage\SqlServer\Theories\" />
     <Folder Include="ToolBox\Http\Theories\" />
     <Folder Include="ToolBox\Replacer\Theories\" />
     <Folder Include="ToolBox\Tasks\Theories\" />
