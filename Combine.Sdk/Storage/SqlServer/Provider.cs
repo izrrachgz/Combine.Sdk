@@ -2,7 +2,6 @@
 using System.Data;
 using System.Text;
 using System.Linq;
-using System.Reflection;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
+using Combine.Sdk.Storage.Definitions.DataProvider.Extensions;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
 namespace Combine.Sdk.Storage.DataProvider.SqlServer
@@ -59,17 +59,11 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     public SqlServerDataProvider(string connectionString)
     {
       ConnectionString = connectionString;
-      Type entityType = typeof(T);
+      T entity = new T();
+      Type entityType = entity.GetType();
       TableName = entityType.Name;
-      PropertyInfo[] info = entityType.GetProperties();
-      Columns = info
-        .Where(p => p.PropertyType.Namespace.StartsWith(@"System") || p.PropertyType.IsEnum)
-        .Select(p => p.Name)
-        .ToArray();
-      SearchColumns = info
-        .Where(p => p.PropertyType.Name.Equals(@"String"))
-        .Select(p => p.Name)
-        .ToArray();
+      Columns = entity.OperationColumns();
+      SearchColumns = entity.SearchableColumns();
     }
 
     /// <summary>

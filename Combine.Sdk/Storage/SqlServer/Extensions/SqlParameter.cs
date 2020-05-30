@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
+using Combine.Sdk.Storage.Definitions.DataProvider.Extensions;
 
 namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
 {
@@ -64,7 +65,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
       if (parameters.IsNotValid() || entity == null)
         return;
       Type type = entity.GetType();
-      string[] columns = entity.GetPropertyNames();
+      string[] columns = entity.OperationColumns();
       foreach (SqlParameter parameter in parameters)
       {
         string property = parameter.ParameterName.Replace(@"@", @"");

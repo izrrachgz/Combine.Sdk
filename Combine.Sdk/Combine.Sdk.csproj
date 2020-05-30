@@ -40,7 +40,6 @@
     <Folder Include="Extensions\CommonObjects\" />
     <Folder Include="Extensions\Json\" />
     <Folder Include="Storage\Definitions\DataProvider\Enums\" />
-    <Folder Include="Storage\Definitions\DataProvider\Extensions\" />
     <Folder Include="Storage\Definitions\DataProvider\Interfaces\" />
     <Folder Include="Storage\Definitions\DataProvider\Models\" />
     <Folder Include="Storage\SqlServer\Commands\" />

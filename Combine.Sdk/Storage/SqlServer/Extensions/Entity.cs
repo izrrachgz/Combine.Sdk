@@ -13,7 +13,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
   /// <summary>
   /// Provides extension methods for Entity type objects
   /// </summary>
-  public static class Entity
+  public static class EntityExtensions
   {
     /// <summary>
     /// Saves the changes made to an entity
