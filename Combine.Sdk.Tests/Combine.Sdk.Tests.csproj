@@ -69,7 +69,6 @@
     <Folder Include="Extensions\Word\Theories\" />
     <Folder Include="ToolBox\Http\Theories\" />
     <Folder Include="ToolBox\Replacer\Theories\" />
-    <Folder Include="ToolBox\Tasks\Theories\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

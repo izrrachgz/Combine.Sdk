@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Diagnostics\Memory\" />
     <Folder Include="Extensions\CommonObjects\" />
     <Folder Include="Extensions\Json\" />
     <Folder Include="Storage\Definitions\DataProvider\Enums\" />

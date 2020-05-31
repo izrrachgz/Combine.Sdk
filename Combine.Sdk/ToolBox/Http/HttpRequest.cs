@@ -30,7 +30,7 @@ namespace Combine.Sdk.ToolBox.Http
     /// <param name="headers"></param>
     public HttpRequest(List<HttpHeader> headers = null)
     {
-      Headers = new List<HttpHeader>();
+      Headers = headers ?? new List<HttpHeader>();
     }
 
     #region Private Methods
@@ -42,11 +42,24 @@ namespace Combine.Sdk.ToolBox.Http
     /// <param name="client">HttpClient reference</param>
     private void AddHeaders(HttpClient client)
     {
-      if (!Headers.IsNotValid())
-      {
-        client.DefaultRequestHeaders.Clear();
-        Headers.ForEach(h => client.DefaultRequestHeaders.Add(h.Name, h.Value));
-      }
+      if (Headers.IsNotValid())
+        return;
+      client.DefaultRequestHeaders.Clear();
+      Headers.ForEach(h => client.DefaultRequestHeaders.Add(h.Name, h.Value));
+
+    }
+
+    /// <summary>    
+    /// Adds all the supplied headers into the current
+    /// request
+    /// </summary>
+    /// <param name="client">HttpClient reference</param>
+    private void AddHeaders(WebClient client)
+    {
+      if (Headers.IsNotValid())
+        return;
+      client.Headers.Clear();
+      Headers.ForEach(h => client.Headers.Add(h.Name, h.Value));
     }
 
     #endregion
@@ -535,6 +548,7 @@ namespace Combine.Sdk.ToolBox.Http
         using (WebClient client = new WebClient())
         {
           Uri url = new Uri(urlBase + method);
+          AddHeaders(client);
           response = new ComplexResponse<RawBytes>(new RawBytes(await client.DownloadDataTaskAsync(url)));
           client.Dispose();
         }
@@ -567,6 +581,7 @@ namespace Combine.Sdk.ToolBox.Http
         using (WebClient client = new WebClient())
         {
           Uri url = new Uri(urlBase + method);
+          AddHeaders(client);
           directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
           name = name ?? Guid.NewGuid().ToString(@"N");
           extension = extension ?? @"dat";
