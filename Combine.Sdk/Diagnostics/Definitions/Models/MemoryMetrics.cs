@@ -1,7 +1,9 @@
-﻿namespace Combine.Sdk.Diagnostics.Definitions.Models
+﻿using System;
+
+namespace Combine.Sdk.Diagnostics.Definitions.Models
 {
   /// <summary>
-  /// Provides a data model representation for a memory metric
+  /// Provides a data model representation for a memory platform metric
   /// object entity
   /// </summary>
   public class MemoryMetrics
@@ -14,12 +16,17 @@
     /// <summary>
     /// Allocated memory
     /// </summary>
-    public double Used { get; set; }
+    public double Used => Total - Free;
 
     /// <summary>
     /// Unallocated memory
     /// </summary>
     public double Free { get; set; }
+
+    /// <summary>
+    /// Platform read moment
+    /// </summary>
+    public DateTime Date { get; set; }
 
     /// <summary>
     /// Creates a new memory metrics empty instance
@@ -35,10 +42,9 @@
     /// <param name="total">Total memory</param>
     /// <param name="used">Used memory</param>
     /// <param name="free">Free memory</param>
-    public MemoryMetrics(double total, double used, double free)
+    public MemoryMetrics(double total, double free)
     {
       Total = total;
-      Used = used;
       Free = free;
     }
   }
