@@ -17,10 +17,13 @@
   <ItemGroup>
     <Compile Remove="Extensions\Facts\**" />
     <Compile Remove="Extensions\Theories\**" />
+    <Compile Remove="ToolBox\Tasks\Theories\**" />
     <EmbeddedResource Remove="Extensions\Facts\**" />
     <EmbeddedResource Remove="Extensions\Theories\**" />
+    <EmbeddedResource Remove="ToolBox\Tasks\Theories\**" />
     <None Remove="Extensions\Facts\**" />
     <None Remove="Extensions\Theories\**" />
+    <None Remove="ToolBox\Tasks\Theories\**" />
   </ItemGroup>
 
   <ItemGroup>
