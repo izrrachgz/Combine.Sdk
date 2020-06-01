@@ -46,7 +46,7 @@ namespace Combine.Sdk.Diagnostics.Definitions.Models
     /// <summary>
     /// Current load percentage
     /// </summary>
-    public double LoadPercentage { get; set; }
+    public byte LoadPercentage { get; set; }
 
     /// <summary>
     /// Platform read moment
