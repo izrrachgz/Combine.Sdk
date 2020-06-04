@@ -77,10 +77,10 @@ namespace Combine.Sdk.Diagnostics.Information
     {
       string output = "";
       //TODO: cpu info unix command
-      ProcessStartInfo info = new ProcessStartInfo("free -m")
+      ProcessStartInfo info = new ProcessStartInfo("lscpu")
       {
         FileName = "/bin/bash",
-        Arguments = "-c \"free -m\"",
+        //Arguments = "-c \"lscpu\"",
         RedirectStandardOutput = true
       };
       using (Process process = Process.Start(info))
@@ -99,14 +99,14 @@ namespace Combine.Sdk.Diagnostics.Information
         .ToList();
       CpuMetrics metrics = new CpuMetrics
       {
-        Name = results.FirstOrDefault(r => r.Key.Equals(@"Name")).Value,
-        Description = results.FirstOrDefault(r => r.Key.Equals(@"Description")).Value,
-        Manufacturer = results.FirstOrDefault(r => r.Key.Equals(@"Manufacturer")).Value,
-        NumberOfCores = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"NumberOfCores")).Value),
+        Name = results.FirstOrDefault(r => r.Key.Equals(@"Model name")).Value,
+        Description = results.FirstOrDefault(r => r.Key.Equals(@"?")).Value,
+        Manufacturer = results.FirstOrDefault(r => r.Key.Equals(@"Vendor ID")).Value,
+        NumberOfCores = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"Core(s) per socket * Socket(s)")).Value),
         NumberOfEnabledCores = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"NumberOfEnabledCore")).Value),
-        ThreadCount = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"ThreadCount")).Value),
-        MaxClockSpeed = int.Parse(results.FirstOrDefault(r => r.Key.Equals(@"MaxClockSpeed")).Value),
-        LoadPercentage = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"LoadPercentage")).Value),
+        ThreadCount = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"Thread(s) per core")).Value),
+        MaxClockSpeed = int.Parse(results.FirstOrDefault(r => r.Key.Equals(@"CPU MHz")).Value),
+        LoadPercentage = byte.Parse(results.FirstOrDefault(r => r.Key.Equals(@"?")).Value),
         Date = DateTime.Now,
       };
       return metrics;
