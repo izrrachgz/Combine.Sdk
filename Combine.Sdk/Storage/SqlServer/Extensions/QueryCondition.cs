@@ -27,9 +27,9 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
     private static void AddStringCollectionAsCondition(StringBuilder sb, object value)
     {
       if (value is IEnumerable<char>)
-        sb.Append($@"(N'{string.Join(@"',N'", value as IEnumerable<char>)}'))");
+        sb.Append($@"(N'{string.Join(@"',N'", value as IEnumerable<char>)}')");
       if (value is IEnumerable<string>)
-        sb.Append($@"(N'{string.Join(@"',N'", value as IEnumerable<string>)}'))");
+        sb.Append($@"(N'{string.Join(@"',N'", value as IEnumerable<string>)}')");
     }
 
     /// <summary>
@@ -40,19 +40,19 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
     private static void AddNumericCollectionAsCondition(StringBuilder sb, object value)
     {
       if (value is IEnumerable<byte>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<byte>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<byte>)})");
       if (value is IEnumerable<short>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<short>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<short>)})");
       if (value is IEnumerable<int>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<int>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<int>)})");
       if (value is IEnumerable<long>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<long>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<long>)})");
       if (value is IEnumerable<float>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<float>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<float>)})");
       if (value is IEnumerable<decimal>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<decimal>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<decimal>)})");
       if (value is IEnumerable<double>)
-        sb.Append($@"({string.Join(@", ", value as IEnumerable<double>)}))");
+        sb.Append($@"({string.Join(@", ", value as IEnumerable<double>)})");
     }
 
     /// <summary>
@@ -88,9 +88,8 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
       for (int x = 0; x < conditions.Count; x++)
       {
         QueryCondition condition = conditions.ElementAt(x);
-        object value = condition.Value ?? DBNull.Value;
-        string paramName = $@"@{Guid.NewGuid():N}";
-        parameters[x] = new SqlParameter(paramName, value);
+        string paramName = $@"@P{x}";
+        object value = condition.Value ?? DBNull.Value;        
         sqlCondition.Append($@"({condition.Property} ");
         switch (condition.Comparer)
         {
@@ -126,14 +125,16 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
             break;
           case QueryOperator.In:
             if (value.IsStringCollection())
-            {
+            {              
               sqlCondition.Append(@"In ");
               AddStringCollectionAsCondition(sqlCondition, value);
+              value = DBNull.Value;
             }
             if (value.IsNumericCollection())
             {
               sqlCondition.Append(@"In ");
               AddNumericCollectionAsCondition(sqlCondition, value);
+              value = DBNull.Value;
             }
             break;
           case QueryOperator.NotIn:
@@ -141,18 +142,21 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
             {
               sqlCondition.Append(@"Not In ");
               AddStringCollectionAsCondition(sqlCondition, value);
+              value = DBNull.Value;
             }
             if (value.IsNumericCollection())
             {
               sqlCondition.Append(@"Not In ");
               AddNumericCollectionAsCondition(sqlCondition, value);
+              value = DBNull.Value;
             }
             break;
           default:
             sqlCondition.Append($@"= {paramName}");
             break;
         };
-        sqlCondition.Append((x + 1).Equals(conditions.Count) ? @") " : @") And ");
+        parameters[x] = new SqlParameter(paramName, value);
+        sqlCondition.Append((x + 1).Equals(conditions.Count) ? @")" : @") And ");
       }
       return sqlCondition.ToString();
     }

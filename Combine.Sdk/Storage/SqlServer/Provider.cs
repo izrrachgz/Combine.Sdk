@@ -446,7 +446,9 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
           //Add 'where' clausule if there is not any default condition
           if (!defaultConditions.Any())
             sqlCount.Append(@"Where ");
-          sqlCount.Append(userSqlConditions);
+          sqlCount
+            .Append(@"And ")
+            .Append(userSqlConditions);
           parameterList.AddRange(userParameters);
         }
         sqlCount.Append(@";");
@@ -473,7 +475,9 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
             //Add 'where' clausule if there is not any default condition
             if (!defaultConditions.Any())
               sqlSelect.Append(@"Where ");
-            sqlSelect.Append(userSqlConditions);
+            sqlSelect
+              .Append(@" And ")
+              .Append(userSqlConditions);
           }
           //Skip and take records ordered by ascending id
           sqlSelect
