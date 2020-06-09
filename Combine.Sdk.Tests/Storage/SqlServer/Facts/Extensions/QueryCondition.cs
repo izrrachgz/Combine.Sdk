@@ -84,7 +84,8 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     {
       List<QueryCondition> conditions = new List<QueryCondition>()
       {
-        new QueryCondition(@"Id", QueryOperator.In, new long[2]{ 1052, 1053 })
+        //new QueryCondition(@"Id", QueryOperator.In, new long[2]{ 1052, 1053 }),
+        new QueryCondition(e => e.Id, QueryOperator.In, new long[2]{ 1052, 1053 }),
       };
       Pagination page = new Pagination();
       ComplexResponse<PaginatedCollection<TestingEntity>> result = await DataProvider.GetRecords(page, conditions: conditions);
