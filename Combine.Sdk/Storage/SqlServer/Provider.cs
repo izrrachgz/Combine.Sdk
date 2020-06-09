@@ -381,7 +381,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     /// <param name="columns">Column selection collection</param>
     /// <param name="conditions">Query conditions to apply</param>
     /// <returns>ComplexResponse of Paginated collection</returns>
-    public async Task<ComplexResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition> conditions = null)
+    public async Task<ComplexResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition<T>> conditions = null)
     {
       //Verify pagination instance
       if (pagination == null)
@@ -395,7 +395,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
       //Inicialize query conditions
       if (conditions.IsNotValid())
       {
-        conditions = new List<QueryCondition>();
+        conditions = new List<QueryCondition<T>>();
       }
       else
       {
@@ -462,6 +462,9 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
           long total = resultCount.Model
             .First()
             .GetFirstResult<long>(@"Total");
+          //The sql select query result is succeded but it has not returned any record
+          if (total.Equals(0))
+            return new ComplexResponse<PaginatedCollection<T>>(false, @"The sql select query result is succeded but it has not returned any record.");
           //Calculate the pagination size by the given total records
           pagination.Calculate(total);
           //Sql select instance

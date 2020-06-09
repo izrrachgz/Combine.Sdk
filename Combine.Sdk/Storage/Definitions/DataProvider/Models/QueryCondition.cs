@@ -8,7 +8,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
   /// <summary>
   /// Provides a query condition data model representation
   /// </summary>
-  public class QueryCondition
+  public class QueryCondition<T> where T : class, IEntity, new()
   {
     /// <summary>
     /// Asociated entity property to evaluate
@@ -29,27 +29,12 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
     /// Creates a new query condition instance
     /// using the specified value
     /// </summary>
-    /// <param name="property">Entity's property</param>
+    /// <param name="property">Entity's property expression</param>
     /// <param name="comparer">Operator to evaluate with</param>
     /// <param name="value">Value to compare with</param>
-    public QueryCondition(string property, QueryOperator comparer, object value)
+    public QueryCondition(Expression<Func<T, object>> expresion, QueryOperator comparer, object value)
     {
-      Property = property;
-      Comparer = comparer;
-      Value = value;
-    }
-
-    /// <summary>
-    /// Creates a new query condition instance
-    /// using the specified value
-    /// </summary>
-    /// <param name="property">Entity's property get expression</param>
-    /// <param name="comparer">Operator to evaluate with</param>
-    /// <param name="value">Value to compare with</param>
-    public QueryCondition(Expression<Func<IEntity, object>> expresion, QueryOperator comparer, object value)
-    {
-      UnaryExpression body = expresion.Body as UnaryExpression;
-      MemberExpression operand = body.Operand as MemberExpression;
+      MemberExpression operand = expresion.Body as MemberExpression;
       Property = operand.Member.Name;
       Comparer = comparer;
       Value = value;

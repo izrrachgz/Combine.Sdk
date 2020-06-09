@@ -53,7 +53,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public void IsNotValid()
     {
-      List<QueryCondition> conditions = new List<QueryCondition>();
+      List<QueryCondition<TestingEntity>> conditions = new List<QueryCondition<TestingEntity>>();
       Assert.True(!conditions.ToSqlQuery(out SqlParameter[] @params).IsNotValid());
     }
 
@@ -65,9 +65,9 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public void ToSqlQuery()
     {
-      List<QueryCondition> conditions = new List<QueryCondition>(1)
+      List<QueryCondition<TestingEntity>> conditions = new List<QueryCondition<TestingEntity>>(1)
       {
-        new QueryCondition(@"Id", QueryOperator.Equal, 1052)
+        new QueryCondition<TestingEntity>(e=>e.Id, QueryOperator.Equal, 1052)
       };
       Assert.True(!conditions.ToSqlQuery(out SqlParameter[] @params).IsNotValid());
     }
@@ -82,10 +82,9 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public async Task GetRecordsByConditions()
     {
-      List<QueryCondition> conditions = new List<QueryCondition>()
+      List<QueryCondition<TestingEntity>> conditions = new List<QueryCondition<TestingEntity>>()
       {
-        //new QueryCondition(@"Id", QueryOperator.In, new long[2]{ 1052, 1053 }),
-        new QueryCondition(e => e.Id, QueryOperator.In, new long[2]{ 1052, 1053 }),
+        new QueryCondition<TestingEntity>(e=>e.Id, QueryOperator.In, new long[2]{ 1052, 1053 }),
       };
       Pagination page = new Pagination();
       ComplexResponse<PaginatedCollection<TestingEntity>> result = await DataProvider.GetRecords(page, conditions: conditions);

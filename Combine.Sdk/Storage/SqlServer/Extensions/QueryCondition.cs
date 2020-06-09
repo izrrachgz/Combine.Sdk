@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Storage.Definitions.DataProvider.Enums;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
+using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
 namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
 {
@@ -61,7 +62,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
     /// </summary>
     /// <param name="conditions">Conditions to evaluate</param>
     /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<QueryCondition> conditions)
+    public static bool IsNotValid<T>(this List<QueryCondition<T>> conditions) where T : class, IEntity, new()
     {
       return conditions == null || !conditions.Any() || conditions.Count > 2100;
     }
@@ -73,7 +74,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
     /// <param name="conditions">Query condition collection reference</param>
     /// <param name="parameters">Sql paramters</param>
     /// <returns>String</returns>
-    public static string ToSqlQuery(this List<QueryCondition> conditions, out SqlParameter[] parameters)
+    public static string ToSqlQuery<T>(this List<QueryCondition<T>> conditions, out SqlParameter[] parameters) where T : class, IEntity, new()
     {
       if (conditions.IsNotValid())
       {
@@ -87,9 +88,9 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
       StringBuilder sqlCondition = new StringBuilder();
       for (int x = 0; x < conditions.Count; x++)
       {
-        QueryCondition condition = conditions.ElementAt(x);
+        QueryCondition<T> condition = conditions.ElementAt(x);
         string paramName = $@"@P{x}";
-        object value = condition.Value ?? DBNull.Value;        
+        object value = condition.Value ?? DBNull.Value;
         sqlCondition.Append($@"({condition.Property} ");
         switch (condition.Comparer)
         {
@@ -125,7 +126,7 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
             break;
           case QueryOperator.In:
             if (value.IsStringCollection())
-            {              
+            {
               sqlCondition.Append(@"In ");
               AddStringCollectionAsCondition(sqlCondition, value);
               value = DBNull.Value;

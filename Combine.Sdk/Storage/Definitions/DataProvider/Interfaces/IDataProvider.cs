@@ -130,6 +130,6 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// <param name="columns">Column selection collection</param>
     /// <param name="conditions">Query conditions to apply</param>
     /// <returns>ComplexResponse of Paginated collection</returns>
-    Task<ComplexResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition> conditions = null);
+    Task<ComplexResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition<T>> conditions = null);
   }
 }
