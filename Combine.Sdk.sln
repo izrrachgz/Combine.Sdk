@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Combine.Sdk", "Combine.Sdk\Combine.Sdk.csproj", "{DE3D2985-8905-408D-B06F-D527AE133ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combine.Sdk.Tests", "Combine.Sdk.Tests\Combine.Sdk.Tests.csproj", "{EDC77A77-104F-417E-87B6-4219A1645FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Combine.Sdk.Tests", "Combine.Sdk.Tests\Combine.Sdk.Tests.csproj", "{EDC77A77-104F-417E-87B6-4219A1645FE8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DE3D2985-8905-408D-B06F-D527AE133ADA} = {DE3D2985-8905-408D-B06F-D527AE133ADA}
 	EndProjectSection
