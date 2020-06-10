@@ -8,13 +8,15 @@ using Combine.Sdk.Extensions.CommonObjects;
 using DocumentFormat.OpenXml.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
+using System.IO.Packaging;
+using DocumentFormat.OpenXml.ExtendedProperties;
 
 namespace Combine.Sdk.Extensions.Word
 {
   /// <summary>
   /// Provides extension methods for WordProcessingDocument type objects
   /// </summary>
-  public static class WordProcessingDocumentExtensions
+  public static class WordProcessingExtensions
   {
     /// <summary>
     /// Checks wheter the given word document is null or its main and document
@@ -25,6 +27,32 @@ namespace Combine.Sdk.Extensions.Word
     public static bool IsNotValid(this WordprocessingDocument word)
     {
       return word == null || word.MainDocumentPart == null || word.MainDocumentPart.Document == null;
+    }
+
+    /// <summary>
+    /// Creates a SpreadSheetDocument from the specified
+    /// template
+    /// </summary>
+    /// <param name="template">Template url</param>
+    /// <returns>WordprocessingDocument reference</returns>
+    public static WordprocessingDocument WordDocument(string template = null)
+    {
+      template = template ?? $@"{AppDomain.CurrentDomain.BaseDirectory}Extensions\Word\Templates\Document.docx";
+      if (!template.IsFilePath(out Uri path))
+        return null;
+      //Initialize via report template
+      WordprocessingDocument document = WordprocessingDocument.CreateFromTemplate(template);
+      //Compress using maximum value possible      
+      document.CompressionOption = CompressionOption.Maximum;
+      //Bond the body of the document or else create a new one
+      Body body = document.MainDocumentPart.Document.Body;
+      //Add Document properties
+      document.SetProperties(@"Documento");
+      //Add extended Document properties
+      document.SetExtendedProperties(null, null);
+      //Save all changes
+      document.Save();
+      return document;
     }
 
     /// <summary>
@@ -160,24 +188,17 @@ namespace Combine.Sdk.Extensions.Word
     /// <param name="word">Word document reference</param>
     /// <param name="text">Paragraph text</param>
     /// <returns>True or False</returns>
-    public static bool AddParagraph(this WordprocessingDocument word, string text)
+    public static void AddParagraph(this WordprocessingDocument word, string text)
     {
-      if (word.IsNotValid() || text.IsNotValid()) return false;
-      try
-      {
-        //Bond the body of the document or else create a new one
-        Body body = word.MainDocumentPart.Document.Body;
-        //Add text to the body via paragraphs      
-        Paragraph paragraph = body.AppendChild(new Paragraph());
-        Run run = paragraph.AppendChild(new Run());
-        run.AppendChild(new Text(text));
-        word.Save();
-        return true;
-      }
-      catch (Exception)
-      {
-        return false;
-      }
+      if (word.IsNotValid() || text.IsNotValid())
+        return;
+      //Bond the body of the document or else create a new one
+      Body body = word.MainDocumentPart.Document.Body;
+      //Add text to the body via paragraphs      
+      Paragraph paragraph = body.AppendChild(new Paragraph());
+      Run run = paragraph.AppendChild(new Run());
+      run.AppendChild(new Text(text));
+      word.Save();
     }
 
     /// <summary>
@@ -186,14 +207,53 @@ namespace Combine.Sdk.Extensions.Word
     /// <param name="word">Word document reference</param>
     /// <param name="list">Collection of paragraphs</param>
     /// <returns>True or False</returns>
-    public static bool AddParagraphs(this WordprocessingDocument word, List<string> list)
+    public static void AddParagraphs(this WordprocessingDocument word, List<string> list)
     {
-      if (word.IsNotValid() || list.IsNotValid()) return false;
+      if (word.IsNotValid() || list.IsNotValid())
+        return;
       for (int x = 0; x < list.Count; x++)
-      {
         word.AddParagraph(list.ElementAt(x));
-      }
-      return true;
+    }
+
+    /// <summary>
+    /// Sets the document public properties
+    /// </summary>
+    /// <param name="document">WordprocessingDocument reference</param>
+    /// <param name="title">Document title</param>
+    /// <param name="description">Document description</param>
+    /// <param name="creator">Creator</param>
+    /// <param name="category">Category</param>
+    /// <param name="lastModifiedBy">Person that last modified</param>
+    public static void SetProperties(this WordprocessingDocument document, string title, string description = null, string creator = null, string category = null, string lastModifiedBy = null)
+    {
+      //Add Document properties
+      document.PackageProperties.Title = title ?? @"Reporte";
+      document.PackageProperties.Creator = creator ?? @"Israel Ch";
+      document.PackageProperties.Category = category ?? @"Reporte";
+      document.PackageProperties.Description = description ?? @"Reporte tipo listado";
+      document.PackageProperties.LastModifiedBy = lastModifiedBy ?? @"Israel Ch";
+      //Save all changes
+      document.Save();
+    }
+
+    /// <summary>
+    /// Sets the extended document properties
+    /// </summary>
+    /// <param name="document">WordprocessingDocument reference</param>
+    /// <param name="company">Company</param>
+    /// <param name="application">Application</param>
+    public static void SetExtendedProperties(this WordprocessingDocument document, Company company, Application application)
+    {
+      //Add extended Document properties
+      if (document.ExtendedFilePropertiesPart == null)
+        document.AddExtendedFilePropertiesPart();
+      document.ExtendedFilePropertiesPart.Properties = new Properties
+      {
+        Company = company ?? new Company(@"izrra.ch"),
+        Application = application ?? new Application("Combine.Sdk.Word")
+      };
+      //Save all changes
+      document.Save();
     }
   }
 }

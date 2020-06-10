@@ -41,6 +41,9 @@ namespace Combine.Sdk.Extensions.Excel
     /// </summary>
     private static SharedStringTablePart StringPart { get; set; }
 
+    /// <summary>
+    /// Shared string values table
+    /// </summary>
     private static List<string> TableStrings { get; set; }
 
     /// <summary>
@@ -620,7 +623,7 @@ namespace Combine.Sdk.Extensions.Excel
       document.ExtendedFilePropertiesPart.Properties = new Properties
       {
         Company = company ?? new Company(@"izrra.ch"),
-        Application = application ?? new Application("Extensions.Excel")
+        Application = application ?? new Application("Combine.Sdk.Excel")
       };
       //Save all changes
       document.Save();
