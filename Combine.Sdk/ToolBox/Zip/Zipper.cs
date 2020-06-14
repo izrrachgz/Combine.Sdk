@@ -23,31 +23,6 @@ namespace Combine.Sdk.ToolBox.Zip
     }
 
     /// <summary>
-    /// Creates a zip archive and adds all the files
-    /// contained in the specified directory
-    /// </summary>
-    /// <param name="directory">Directory path</param>
-    /// <param name="compression">Compression level</param>
-    /// <returns>Zip path</returns>
-    public async Task<BasicResponse> ZipDirectory(string directory, CompressionLevel compression = CompressionLevel.Optimal)
-    {
-      if (directory == null || !directory.IsDirectoryPath())
-        return new BasicResponse(false, @"The supplied directory is not valid to work with.");
-      BasicResponse response;
-      try
-      {
-        string zipUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}{Guid.NewGuid():N}.zip";
-        await Task.Run(() => ZipFile.CreateFromDirectory(directory, zipUrl, compression, false));
-        response = new BasicResponse(true, zipUrl);
-      }
-      catch (Exception ex)
-      {
-        response = new BasicResponse(ex);
-      }
-      return response;
-    }
-
-    /// <summary>
     /// Creates a zip archive and adds the file
     /// specified
     /// </summary>
@@ -113,6 +88,31 @@ namespace Combine.Sdk.ToolBox.Zip
           }
           await fsZip.FlushAsync();
         }
+        response = new BasicResponse(true, zipUrl);
+      }
+      catch (Exception ex)
+      {
+        response = new BasicResponse(ex);
+      }
+      return response;
+    }
+
+    /// <summary>
+    /// Creates a zip archive and adds all the files
+    /// contained in the specified directory
+    /// </summary>
+    /// <param name="directory">Directory path</param>
+    /// <param name="compression">Compression level</param>
+    /// <returns>Zip path</returns>
+    public async Task<BasicResponse> ZipDirectory(string directory, CompressionLevel compression = CompressionLevel.Optimal)
+    {
+      if (directory == null || !directory.IsDirectoryPath())
+        return new BasicResponse(false, @"The supplied directory is not valid to work with.");
+      BasicResponse response;
+      try
+      {
+        string zipUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}{Guid.NewGuid():N}.zip";
+        await Task.Run(() => ZipFile.CreateFromDirectory(directory, zipUrl, compression, false));
         response = new BasicResponse(true, zipUrl);
       }
       catch (Exception ex)
