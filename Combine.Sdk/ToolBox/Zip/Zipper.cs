@@ -68,9 +68,9 @@ namespace Combine.Sdk.ToolBox.Zip
     /// <param name="files">Files reference</param>
     /// <param name="compression">Compression level</param>
     /// <returns>Zip path</returns>
-    public async Task<BasicResponse> ZipFiles(string[] files, CompressionLevel compression = CompressionLevel.Optimal)
+    public async Task<BasicResponse> ZipFiles(IEnumerable<string> files, CompressionLevel compression = CompressionLevel.Optimal)
     {
-      if (files.IsNotValid())
+      if (files == null || !files.Any())
         return new BasicResponse(false, @"The supplied file collection is not valid to work with.");
       BasicResponse response;
       try
