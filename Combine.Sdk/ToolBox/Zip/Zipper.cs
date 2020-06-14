@@ -121,5 +121,22 @@ namespace Combine.Sdk.ToolBox.Zip
       }
       return response;
     }
+
+    /// <summary>
+    /// Extracts a zip file into
+    /// the specified directory
+    /// </summary>
+    /// <param name="path">Zip file path</param>
+    /// <param name="extractTo">Extract to directory</param>
+    /// <returns>Task</returns>
+    public async Task<BasicResponse> UnZip(string path, string extractTo)
+    {
+      if (!path.IsFilePath(out Uri uri) || path.EndsWith(@".zip"))
+        return new BasicResponse(false, @"The specified zip file path does not point at a zip file.");
+      if (!extractTo.IsDirectoryPath())
+        return new BasicResponse(false, @"The specified zip 'extract to' directory is not a valid to work with directory.");
+      await Task.Run(() => ZipFile.ExtractToDirectory(path, extractTo));
+      return new BasicResponse(true);
+    }
   }
 }
