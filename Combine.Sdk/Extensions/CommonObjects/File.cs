@@ -16,7 +16,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <returns>True or False</returns>
     public static bool IsNotValid(this FileInfo info)
     {      
-      return info == null || !info.FullName.IsNotValid() || !info.Exists;
+      return info == null || info.FullName.IsNotValid() || !info.Exists;
     }
 
     /// <summary>
