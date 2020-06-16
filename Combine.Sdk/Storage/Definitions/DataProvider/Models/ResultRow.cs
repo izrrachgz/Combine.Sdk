@@ -61,7 +61,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
     /// <typeparam name="T">Object Type</typeparam>
     /// <param name="column">Column Name</param>
     /// <returns>Casted cell value</returns>
-    public T GetCellValue<T>(string column) where T : struct
+    public T GetCellValue<T>(string column)
     => (T)Cells.FirstOrDefault(c => c.ColumnName.Equals(column))?.Value;
 
     /// <summary>
@@ -71,7 +71,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
     /// <typeparam name="T">Object Type</typeparam>
     /// <param name="index">Index cell position</param>
     /// <returns>Casted cell value</returns>
-    public T GetCellValue<T>(int index) where T : struct
+    public T GetCellValue<T>(int index)
     => Cells.Count - 1 >= index ? (T)Cells.ElementAt(index).Value : default(T);
 
     /// <summary>
