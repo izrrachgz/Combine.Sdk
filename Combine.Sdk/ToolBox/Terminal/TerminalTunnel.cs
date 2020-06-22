@@ -28,10 +28,10 @@ namespace Combine.Sdk.ToolBox.Terminal
     /// <param name="fileName">File, program, process</param>
     /// <param name="arguments">Command arguments</param>
     /// <returns>String output</returns>
-    public async Task<ComplexResponse<StringBuilder>> Run(string fileName = @"cmd.exe", string arguments)
+    public async Task<ComplexResponse<StringBuilder>> Run(string fileName = @"cmd.exe", string arguments = null)
     {
       //Verify executable and command args
-      if (fileName.IsNotValid() || arguments.IsNotValid())
+      if (fileName.IsNotValid())
         return new ComplexResponse<StringBuilder>(false, @"The supplied filename/arguments are not valid to work with.");
       ComplexResponse<StringBuilder> response;
       try
@@ -40,7 +40,7 @@ namespace Combine.Sdk.ToolBox.Terminal
         ProcessStartInfo info = new ProcessStartInfo
         {
           FileName = fileName,
-          Arguments = arguments,
+          Arguments = arguments ?? @"",
           RedirectStandardOutput = true
         };
         //Invoke process
