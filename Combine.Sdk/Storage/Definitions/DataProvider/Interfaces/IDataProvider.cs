@@ -78,6 +78,16 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     Task<ComplexResponse<T>> GetFirst(long id, string[] columns);
 
     /// <summary>
+    /// Must retrieve the first entity that compels
+    /// to the given conditiones and
+    /// include all the specified columns
+    /// </summary>
+    /// <param name="conditions"></param>
+    /// <param name="conlumns"></param>
+    /// <returns></returns>
+    Task<ComplexResponse<T>> GetFirst(List<QueryCondition<T>> conditions, string[] columns);
+
+    /// <summary>
     /// Must mark the entity as deleted by updating
     /// its deleted column property to the current
     /// moment

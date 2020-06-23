@@ -8,6 +8,7 @@ using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Data.Definitions.Collection;
 using Combine.Sdk.Storage.DataProvider.SqlServer;
+using Combine.Sdk.Storage.Definitions.DataProvider.Enums;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
 using Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Models;
@@ -87,6 +88,24 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     public async Task GetFirstWithColumns()
     {
       ComplexResponse<TestingEntity> result = await DataProvider.GetFirst(11, new string[1] { @"Id" });
+      Assert.True(result.Correct);
+    }
+
+    /// <summary>
+    /// Proves that the extension method GetFirst
+    /// retrieves the first entity that
+    /// compels to the supplied conditions and
+    /// includes the specified columns during
+    /// selection
+    /// </summary>
+    [Fact]
+    public async Task GetFirstByConditions()
+    {
+      List<QueryCondition<TestingEntity>> conditions = new List<QueryCondition<TestingEntity>>(1)
+      {
+        new QueryCondition<TestingEntity>(e => e.Id, QueryOperator.Equal, 1052)
+      };
+      ComplexResponse<TestingEntity> result = await DataProvider.GetFirst(conditions);
       Assert.True(result.Correct);
     }
 

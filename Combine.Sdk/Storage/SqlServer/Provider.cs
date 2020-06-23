@@ -168,6 +168,62 @@ namespace Combine.Sdk.Storage.DataProvider.SqlServer
     }
 
     /// <summary>
+    /// Retrieves the first entity that
+    /// compels to the supplied conditions and
+    /// includes the specified columns during
+    /// selection
+    /// </summary>
+    /// <param name="conditions">Query Conditions</param>
+    /// <param name="columns">Columns to include</param>
+    /// <returns>ComplexReponse T</returns>
+    public async Task<ComplexResponse<T>> GetFirst(List<QueryCondition<T>> conditions, string[] columns = null)
+    {
+      //Verify select columns
+      if (columns.IsNotValid())
+        columns = Columns;
+      //Verify integrity Columns (All the supplied columns must exists inside the current entity)
+      if (!columns.ToList().TrueForAll(Columns.Contains))
+        return new ComplexResponse<T>(false, @"The supplied columns does not exist in the current entity.");
+      //Inicialize query conditions
+      if (conditions.IsNotValid())
+      {
+        conditions = new List<QueryCondition<T>>();
+      }
+      else
+      {
+        //Validate query conditions integrity (All the supplied property-column query condition reference must exists inside the current entity)
+        if (!conditions.Select(c => c.Property).ToList().TrueForAll(columns.Contains))
+          return new ComplexResponse<T>(false, @"The supplied columns does not exist in the current entity.");
+      }
+      ComplexResponse<T> response;
+      try
+      {
+        SqlServerCommand command = new SqlServerCommand(ConnectionString);
+        //Get the user supplied conditions
+        string userSqlConditions = conditions.ToSqlQuery(out SqlParameter[] parameters);
+        string sql = $@"Select Top 1 [{string.Join(@"], [", columns)}] From [dbo].[{TableName}] Where {userSqlConditions} And ([Deleted] Is Null);";
+        ComplexResponse<List<ResultTable>> commandResult = await command.Query(sql, parameters);
+        if (commandResult.Correct)
+        {
+          T model = commandResult.Model
+            .FirstOrDefault()
+            .Rows.ElementAt(0)
+            .ToEntity<T>();
+          response = new ComplexResponse<T>(model);
+        }
+        else
+        {
+          response = new ComplexResponse<T>(false, commandResult.Message);
+        }
+      }
+      catch (Exception ex)
+      {
+        response = new ComplexResponse<T>(ex);
+      }
+      return response;
+    }
+
+    /// <summary>
     /// Deletes the entity that belongs to the
     /// specified primary key
     /// </summary>

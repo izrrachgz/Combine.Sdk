@@ -34,7 +34,8 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Models
     /// <param name="value">Value to compare with</param>
     public QueryCondition(Expression<Func<T, object>> expresion, QueryOperator comparer, object value)
     {
-      MemberExpression operand = expresion.Body as MemberExpression;
+      UnaryExpression ex = expresion.Body as UnaryExpression;
+      MemberExpression operand = ex.Operand as MemberExpression;
       Property = operand.Member.Name;
       Comparer = comparer;
       Value = value;
