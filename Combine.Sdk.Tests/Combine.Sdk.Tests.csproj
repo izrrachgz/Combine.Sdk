@@ -70,7 +70,7 @@
 
   <ItemGroup>
     <Reference Include="Combine.Sdk">
-      <HintPath>..\Combine.Sdk\bin\Debug\netcoreapp2.1\Combine.Sdk.dll</HintPath>
+      <HintPath>..\Combine.Sdk\bin\Debug\netcoreapp2.2\Combine.Sdk.dll</HintPath>
     </Reference>
   </ItemGroup>
 
