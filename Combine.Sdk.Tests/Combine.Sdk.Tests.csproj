@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -58,12 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Combine.Sdk">
-      <HintPath>..\Combine.Sdk\bin\Debug\netcoreapp2.2\Combine.Sdk.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Diagnostics\Performance\Facts\" />
     <Folder Include="Diagnostics\Performance\Theories\" />
     <Folder Include="Extensions\CommonObjects\Theories\" />
@@ -72,6 +66,12 @@
     <Folder Include="Extensions\Word\Theories\" />
     <Folder Include="ToolBox\Http\Theories\" />
     <Folder Include="ToolBox\Replacer\Theories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Combine.Sdk">
+      <HintPath>..\Combine.Sdk\bin\Debug\netcoreapp2.1\Combine.Sdk.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
