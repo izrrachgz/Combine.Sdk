@@ -54,7 +54,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     public void IsNotValid()
     {
       List<QueryCondition<TestingEntity>> conditions = new List<QueryCondition<TestingEntity>>();
-      Assert.True(!conditions.ToSqlQuery(out SqlParameter[] @params).IsNotValid());
+      Assert.True(!conditions.ToSqlQuery(out _).IsNotValid());
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
         new QueryCondition<TestingEntity>(e=>e.Id, QueryOperator.In, new long[2]{ 1052, 1053 }),
       };
       Pagination page = new Pagination();
-      ComplexResponse<PaginatedCollection<TestingEntity>> result = await DataProvider.GetRecords(page, conditions: conditions);
+      ModelResponse<PaginatedCollection<TestingEntity>> result = await DataProvider.GetRecords(page, conditions: conditions);
       Assert.True(result.Correct);
     }
   }

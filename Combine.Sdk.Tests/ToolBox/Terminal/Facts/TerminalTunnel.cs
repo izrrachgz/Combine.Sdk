@@ -32,7 +32,7 @@ namespace Combine.Sdk.Tests.ToolBox.Terminal.Facts
     public async Task Run()
     {
       TerminalTunnel tunnel = new TerminalTunnel();
-      ComplexResponse<StringBuilder> output = await tunnel.Run(@"wmic", @"cpu get name /Value");
+      ModelResponse<StringBuilder> output = await tunnel.Run(@"wmic", @"cpu get name /Value");
       Assert.True(output.Correct);
     }
   }

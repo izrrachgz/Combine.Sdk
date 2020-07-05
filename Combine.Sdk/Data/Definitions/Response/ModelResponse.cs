@@ -7,7 +7,7 @@ namespace Combine.Sdk.Data.Definitions.Response
   /// data model
   /// </summary>
   /// <typeparam name="T">Complex type</typeparam>
-  public class ComplexResponse<T> : BasicResponse where T : new()
+  public class ModelResponse<T> : BasicResponse
   {
     /// <summary>
     /// Retains the process-asociated complex
@@ -18,9 +18,9 @@ namespace Combine.Sdk.Data.Definitions.Response
     /// <summary>
     /// Creates a new complex response instance
     /// </summary>
-    public ComplexResponse() : base(false)
+    public ModelResponse() : base(false)
     {
-      Model = default(T);
+      Model = default;
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ namespace Combine.Sdk.Data.Definitions.Response
     /// containing the supplied model
     /// </summary>
     /// <param name="model"></param>
-    public ComplexResponse(T model) : base(model != null)
+    public ModelResponse(T model) : base(model != null)
     {
       Model = model;
     }
@@ -39,9 +39,9 @@ namespace Combine.Sdk.Data.Definitions.Response
     /// the resolving process task
     /// </summary>
     /// <param name="exception"></param>
-    public ComplexResponse(Exception exception) : base(exception)
+    public ModelResponse(Exception exception) : base(exception)
     {
-      Model = default(T);
+      Model = default;
     }
 
     /// <summary>
@@ -51,9 +51,9 @@ namespace Combine.Sdk.Data.Definitions.Response
     /// </summary>
     /// <param name="correct"></param>
     /// <param name="message"></param>
-    public ComplexResponse(bool correct, string message) : base(correct, message)
+    public ModelResponse(bool correct, string message) : base(correct, message)
     {
-      Model = default(T);
+      Model = default;
     }
   }
 }

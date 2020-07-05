@@ -51,7 +51,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public void CreateInsertStatement()
     {
-      string sql = DataProvider.CreateInsertStatement(out object[] parameters);
+      string sql = DataProvider.CreateInsertStatement(out _);
       Assert.True(!sql.IsNotValid());
     }
 
@@ -62,7 +62,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public void CreateUpdateStatement()
     {
-      string sql = DataProvider.CreateUpdateStatement(out object[] parameters);
+      string sql = DataProvider.CreateUpdateStatement(out _);
       Assert.True(!sql.IsNotValid());
     }
 
@@ -74,7 +74,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public async Task GetFirst()
     {
-      ComplexResponse<TestingEntity> result = await DataProvider.GetFirst(11);
+      ModelResponse<TestingEntity> result = await DataProvider.GetFirst(11);
       Assert.True(result.Correct);
     }
 
@@ -87,7 +87,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     [Fact]
     public async Task GetFirstWithColumns()
     {
-      ComplexResponse<TestingEntity> result = await DataProvider.GetFirst(11, new string[1] { @"Id" });
+      ModelResponse<TestingEntity> result = await DataProvider.GetFirst(11, new string[1] { @"Id" });
       Assert.True(result.Correct);
     }
 
@@ -105,7 +105,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
       {
         new QueryCondition<TestingEntity>(e => e.Id, QueryOperator.Equal, 1052)
       };
-      ComplexResponse<TestingEntity> result = await DataProvider.GetFirst(conditions);
+      ModelResponse<TestingEntity> result = await DataProvider.GetFirst(conditions);
       Assert.True(result.Correct);
     }
 
@@ -207,7 +207,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     public async Task GetRecords()
     {
       Pagination page = new Pagination();
-      ComplexResponse<PaginatedCollection<TestingEntity>> result = await DataProvider.GetRecords(page);
+      ModelResponse<PaginatedCollection<TestingEntity>> result = await DataProvider.GetRecords(page);
       Assert.True(result.Correct);
     }
   }

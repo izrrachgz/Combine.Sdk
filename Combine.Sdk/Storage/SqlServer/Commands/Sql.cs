@@ -39,12 +39,12 @@ namespace Combine.Sdk.Storage.SqlServer.Commands
     /// <param name="type">Command type</param>
     /// <param name="timeout">Timeout</param>
     /// <returns>Result Table list</returns>
-    private async Task<ComplexResponse<List<ResultTable>>> SqlQuery(string sql, SqlParameter[] parameters = null, CommandType type = CommandType.Text, byte timeout = 30)
+    private async Task<ModelResponse<List<ResultTable>>> SqlQuery(string sql, SqlParameter[] parameters = null, CommandType type = CommandType.Text, byte timeout = 30)
     {
       //Verify sql connection string
       if (sql.IsNotValid())
-        return new ComplexResponse<List<ResultTable>>(false, @"The specified sql statement is not a valid to work with string value, your request has been rejected.");
-      ComplexResponse<List<ResultTable>> response;
+        return new ModelResponse<List<ResultTable>>(false, @"The specified sql statement is not a valid to work with string value, your request has been rejected.");
+      ModelResponse<List<ResultTable>> response;
       using (SqlConnection connection = new SqlConnection(ConnectinString))
       {
         try
@@ -94,14 +94,14 @@ namespace Combine.Sdk.Storage.SqlServer.Commands
                 //Read next result set and go back
                 if (await reader.NextResultAsync())
                   goto AddTableResult;
-                response = new ComplexResponse<List<ResultTable>>(tables);
+                response = new ModelResponse<List<ResultTable>>(tables);
                 //Close data reader stream
                 reader.Close();
               }
               else
               {
                 //The sql statement has not returned any valid response, use default value.
-                response = new ComplexResponse<List<ResultTable>>(false, @"The current sql statement has been executed as requested correctly, however, it did not returned any response.");
+                response = new ModelResponse<List<ResultTable>>(false, @"The current sql statement has been executed as requested correctly, however, it did not returned any response.");
               }
               //Dispose all reader resources
               reader.Dispose();
@@ -119,7 +119,7 @@ namespace Combine.Sdk.Storage.SqlServer.Commands
         }
         catch (Exception ex)
         {
-          response = new ComplexResponse<List<ResultTable>>(ex);
+          response = new ModelResponse<List<ResultTable>>(ex);
         }
         connection.Dispose();
       }
@@ -134,7 +134,7 @@ namespace Combine.Sdk.Storage.SqlServer.Commands
     /// <param name="parameters">Sql parameters</param>
     /// <param name="timeout">Timeout</param>
     /// <returns>Result Table list</returns>
-    public async Task<ComplexResponse<List<ResultTable>>> StoredProcedure(string name, SqlParameter[] parameters = null, byte timeout = 30)
+    public async Task<ModelResponse<List<ResultTable>>> StoredProcedure(string name, SqlParameter[] parameters = null, byte timeout = 30)
       => await SqlQuery(name, parameters, CommandType.StoredProcedure, timeout);
 
     /// <summary>
@@ -144,7 +144,7 @@ namespace Combine.Sdk.Storage.SqlServer.Commands
     /// <param name="parameters">Sql parameters</param>
     /// <param name="timeout">Timeout</param>
     /// <returns>Result Table list</returns>
-    public async Task<ComplexResponse<List<ResultTable>>> Query(string sql, SqlParameter[] parameters = null, byte timeout = 15)
+    public async Task<ModelResponse<List<ResultTable>>> Query(string sql, SqlParameter[] parameters = null, byte timeout = 15)
       => await SqlQuery(sql, parameters, CommandType.Text, timeout);
   }
 }

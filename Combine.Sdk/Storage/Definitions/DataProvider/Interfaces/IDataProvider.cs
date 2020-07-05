@@ -65,7 +65,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// </summary>
     /// <param name="id">Primary key</param>
     /// <returns>ComplexResponse T</returns>
-    Task<ComplexResponse<T>> GetFirst(long id);
+    Task<ModelResponse<T>> GetFirst(long id);
 
     /// <summary>
     /// Must retrieve the first entity that belongs
@@ -75,7 +75,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// <param name="id">Primary key</param>
     /// <param name="columns">Columns to include in selection</param>
     /// <returns>ComplexResponse T</returns>
-    Task<ComplexResponse<T>> GetFirst(long id, string[] columns);
+    Task<ModelResponse<T>> GetFirst(long id, string[] columns);
 
     /// <summary>
     /// Must retrieve the first entity that compels
@@ -85,7 +85,7 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// <param name="conditions"></param>
     /// <param name="conlumns"></param>
     /// <returns></returns>
-    Task<ComplexResponse<T>> GetFirst(List<QueryCondition<T>> conditions, string[] columns);
+    Task<ModelResponse<T>> GetFirst(List<QueryCondition<T>> conditions, string[] columns);
 
     /// <summary>
     /// Must mark the entity as deleted by updating
@@ -140,6 +140,6 @@ namespace Combine.Sdk.Storage.Definitions.DataProvider.Interfaces
     /// <param name="columns">Column selection collection</param>
     /// <param name="conditions">Query conditions to apply</param>
     /// <returns>ComplexResponse of Paginated collection</returns>
-    Task<ComplexResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition<T>> conditions = null);
+    Task<ModelResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition<T>> conditions = null);
   }
 }

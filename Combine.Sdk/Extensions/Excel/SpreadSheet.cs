@@ -228,7 +228,7 @@ namespace Combine.Sdk.Extensions.Excel
     /// <returns>SpreadSheetDocument reference</returns>
     public static SpreadsheetDocument ExcelDocument(string template = null)
     {
-      template = template ?? $@"{AppDomain.CurrentDomain.BaseDirectory}Extensions\Excel\Templates\Report.xlsx";
+      template ??= $@"{AppDomain.CurrentDomain.BaseDirectory}Extensions\Excel\Templates\Report.xlsx";
       if (!template.IsFilePath(out Uri path))
         return null;
       //Initialize via report template

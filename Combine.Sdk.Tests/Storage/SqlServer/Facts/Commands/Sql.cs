@@ -45,7 +45,7 @@ namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts
     public async Task Query()
     {
       SqlServerCommand command = new SqlServerCommand(ConnectionString);
-      ComplexResponse<List<ResultTable>> result = await command.Query(@"SELECT 1, 2, 3;");
+      ModelResponse<List<ResultTable>> result = await command.Query(@"SELECT 1, 2, 3;");
       Assert.True(result.Correct);
     }
   }

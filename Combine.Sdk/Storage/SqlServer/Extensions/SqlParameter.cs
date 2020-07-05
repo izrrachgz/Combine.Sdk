@@ -72,7 +72,7 @@ namespace Combine.Sdk.Storage.SqlServer.Extensions
         if (columns.Contains(property))
         {
           object value = type.GetProperty(property).GetValue(entity);
-          value = value ?? DBNull.Value;
+          value ??= DBNull.Value;
           parameter.Value = value;
         }
       }

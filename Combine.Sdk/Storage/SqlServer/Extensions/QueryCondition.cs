@@ -18,7 +18,7 @@ namespace Combine.Sdk.Storage.SqlServer.Extensions
     /// <summary>
     /// These properties are going to be ignored during Sql query transformation
     /// </summary>
-    private static string[] IgnoredProperties = new string[2] { @"Created", @"Deleted" };
+    private static readonly string[] IgnoredProperties = new string[2] { @"Created", @"Deleted" };
 
     /// <summary>
     /// Creates the sql list collection comparer part

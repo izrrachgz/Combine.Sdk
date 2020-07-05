@@ -28,7 +28,7 @@ namespace Combine.Sdk.Storage.SqlServer.Extensions
         return new BasicResponse(false, @"The specified entity is not valid for save operation.");
       string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json";
       //Verify configuration file
-      if (!configUrl.IsFilePath(out Uri uri))
+      if (!configUrl.IsFilePath(out _))
         return new BasicResponse(false, @"The configuration file is not present, the task could not be completed as requested.");
       JsonLoader<Configuration> jsonLoader = new JsonLoader<Configuration>(configUrl);
       await jsonLoader.Load();
@@ -54,11 +54,11 @@ namespace Combine.Sdk.Storage.SqlServer.Extensions
     {
       //Verify entity state
       if (entities.IsNotValid())
-        return new ComplexResponse<List<long>>(false, @"The specified entity list is not valid for save operation.");
+        return new ModelResponse<List<long>>(false, @"The specified entity list is not valid for save operation.");
       string configUrl = $@"{AppDomain.CurrentDomain.BaseDirectory}Storage\SqlServer\DataProvider.json";
       //Verify configuration file
-      if (!configUrl.IsFilePath(out Uri uri))
-        return new ComplexResponse<List<long>>(false, @"The configuration file is not present, the task could not be completed as requested.");
+      if (!configUrl.IsFilePath(out _))
+        return new ModelResponse<List<long>>(false, @"The configuration file is not present, the task could not be completed as requested.");
       JsonLoader<Configuration> jsonLoader = new JsonLoader<Configuration>(configUrl);
       await jsonLoader.Load();
       Configuration configuration = jsonLoader.Instance;
@@ -66,7 +66,7 @@ namespace Combine.Sdk.Storage.SqlServer.Extensions
         .GetFirst<string>(@"ConnectionString");
       //Verify connection string value
       if (connectionString.IsNotValid())
-        return new ComplexResponse<List<long>>(false, @"The specified connection string in the configuration file is not valid for its use, the task could not be completed as requested.");
+        return new ModelResponse<List<long>>(false, @"The specified connection string in the configuration file is not valid for its use, the task could not be completed as requested.");
       //Save entity list
       SqlServerDataProvider<T> provider = new SqlServerDataProvider<T>(connectionString);
       return await provider.Save(entities, transaction);

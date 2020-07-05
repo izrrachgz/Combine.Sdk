@@ -537,25 +537,25 @@ namespace Combine.Sdk.ToolBox.Http
     /// <param name="urlBase">Main resource address</param>
     /// <param name="method">Method resource address part</param>
     /// <returns>DownloadFile</returns>
-    public async Task<ComplexResponse<RawBytes>> Download(string urlBase, string method)
+    public async Task<ModelResponse<RawBytes>> Download(string urlBase, string method)
     {
       //Verify http request integrity
       if (!urlBase.IsWebDirectory(out Uri uri) || method.IsNotValid())
-        return new ComplexResponse<RawBytes>(false, @"The supplied address is not valid for request operation.");
-      ComplexResponse<RawBytes> response;
+        return new ModelResponse<RawBytes>(false, @"The supplied address is not valid for request operation.");
+      ModelResponse<RawBytes> response;
       try
       {
         using (WebClient client = new WebClient())
         {
           Uri url = new Uri(urlBase + method);
           AddHeaders(client);
-          response = new ComplexResponse<RawBytes>(new RawBytes(await client.DownloadDataTaskAsync(url)));
+          response = new ModelResponse<RawBytes>(new RawBytes(await client.DownloadDataTaskAsync(url)));
           client.Dispose();
         }
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<RawBytes>(ex);
+        response = new ModelResponse<RawBytes>(ex);
       }
       return response;
     }

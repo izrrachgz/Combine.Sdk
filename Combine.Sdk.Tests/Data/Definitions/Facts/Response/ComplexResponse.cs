@@ -25,7 +25,7 @@ namespace Combine.Sdk.Tests.Data.Definitions.Facts
     [Fact]
     public void ComplexResponse()
     {
-      ComplexResponse<int> response = new ComplexResponse<int>(1);
+      ModelResponse<int> response = new ModelResponse<int>(1);
       Assert.True(response.Correct);
     }
   }

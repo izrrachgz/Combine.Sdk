@@ -114,7 +114,7 @@ namespace Combine.Sdk.Storage.SqlServer
     /// </summary>
     /// <param name="id">Primary key</param>
     /// <returns>ComplexResponse T</returns>
-    public async Task<ComplexResponse<T>> GetFirst(long id)
+    public async Task<ModelResponse<T>> GetFirst(long id)
       => await GetFirst(id, Columns);
 
     /// <summary>
@@ -126,18 +126,18 @@ namespace Combine.Sdk.Storage.SqlServer
     /// <param name="id">Primary key</param>
     /// <param name="columns">Columns to include</param>
     /// <returns>ComplexReponse T</returns>
-    public async Task<ComplexResponse<T>> GetFirst(long id, string[] columns)
+    public async Task<ModelResponse<T>> GetFirst(long id, string[] columns)
     {
       //Verify entity primary key
       if (id <= 0)
-        return new ComplexResponse<T>(false, @"The specified primary key is not valid.");
+        return new ModelResponse<T>(false, @"The specified primary key is not valid.");
       //Verify select columns
       if (columns.IsNotValid())
         columns = Columns;
       //Verify integrity Columns (All the supplied columns must exists inside the current entity)
       if (!columns.ToList().TrueForAll(Columns.Contains))
-        return new ComplexResponse<T>(false, @"The supplied columns does not exist in the current entity.");
-      ComplexResponse<T> response;
+        return new ModelResponse<T>(false, @"The supplied columns does not exist in the current entity.");
+      ModelResponse<T> response;
       try
       {
         SqlServerCommand command = new SqlServerCommand(ConnectionString);
@@ -146,23 +146,23 @@ namespace Combine.Sdk.Storage.SqlServer
         {
           new SqlParameter(@"@Id",id)
         };
-        ComplexResponse<List<ResultTable>> commandResult = await command.Query(sql, parameters);
+        ModelResponse<List<ResultTable>> commandResult = await command.Query(sql, parameters);
         if (commandResult.Correct)
         {
           T model = commandResult.Model
             .FirstOrDefault()
             .Rows.ElementAt(0)
             .ToEntity<T>();
-          response = new ComplexResponse<T>(model);
+          response = new ModelResponse<T>(model);
         }
         else
         {
-          response = new ComplexResponse<T>(false, commandResult.Message);
+          response = new ModelResponse<T>(false, commandResult.Message);
         }
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<T>(ex);
+        response = new ModelResponse<T>(ex);
       }
       return response;
     }
@@ -176,14 +176,14 @@ namespace Combine.Sdk.Storage.SqlServer
     /// <param name="conditions">Query Conditions</param>
     /// <param name="columns">Columns to include</param>
     /// <returns>ComplexReponse T</returns>
-    public async Task<ComplexResponse<T>> GetFirst(List<QueryCondition<T>> conditions, string[] columns = null)
+    public async Task<ModelResponse<T>> GetFirst(List<QueryCondition<T>> conditions, string[] columns = null)
     {
       //Verify select columns
       if (columns.IsNotValid())
         columns = Columns;
       //Verify integrity Columns (All the supplied columns must exists inside the current entity)
       if (!columns.ToList().TrueForAll(Columns.Contains))
-        return new ComplexResponse<T>(false, @"The supplied columns does not exist in the current entity.");
+        return new ModelResponse<T>(false, @"The supplied columns does not exist in the current entity.");
       //Inicialize query conditions
       if (conditions.IsNotValid())
       {
@@ -193,32 +193,32 @@ namespace Combine.Sdk.Storage.SqlServer
       {
         //Validate query conditions integrity (All the supplied property-column query condition reference must exists inside the current entity)
         if (!conditions.Select(c => c.Property).ToList().TrueForAll(columns.Contains))
-          return new ComplexResponse<T>(false, @"The supplied columns does not exist in the current entity.");
+          return new ModelResponse<T>(false, @"The supplied columns does not exist in the current entity.");
       }
-      ComplexResponse<T> response;
+      ModelResponse<T> response;
       try
       {
         SqlServerCommand command = new SqlServerCommand(ConnectionString);
         //Get the user supplied conditions
         string userSqlConditions = conditions.ToSqlQuery(out SqlParameter[] parameters);
         string sql = $@"Select Top 1 [{string.Join(@"], [", columns)}] From [dbo].[{TableName}] Where {userSqlConditions} And ([Deleted] Is Null);";
-        ComplexResponse<List<ResultTable>> commandResult = await command.Query(sql, parameters);
+        ModelResponse<List<ResultTable>> commandResult = await command.Query(sql, parameters);
         if (commandResult.Correct)
         {
           T model = commandResult.Model
             .FirstOrDefault()
             .Rows.ElementAt(0)
             .ToEntity<T>();
-          response = new ComplexResponse<T>(model);
+          response = new ModelResponse<T>(model);
         }
         else
         {
-          response = new ComplexResponse<T>(false, commandResult.Message);
+          response = new ModelResponse<T>(false, commandResult.Message);
         }
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<T>(ex);
+        response = new ModelResponse<T>(ex);
       }
       return response;
     }
@@ -297,7 +297,7 @@ namespace Combine.Sdk.Storage.SqlServer
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<bool>(ex);
+        response = new ModelResponse<bool>(ex);
       }
       return response;
     }
@@ -372,25 +372,23 @@ namespace Combine.Sdk.Storage.SqlServer
             command.CommandText = insert ? sqlInsert : sqlUpdate.Replace(@"@Id", e.Id.ToString());
             //Initialize parameter values            
             @params.SetValues(e);
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            using SqlDataReader reader = await command.ExecuteReaderAsync();
+            if (reader.HasRows)
             {
-              if (reader.HasRows)
-              {
-                //Read the results
-                await reader.ReadAsync();
-                long result = reader.GetInt64(0);
-                //Get the inserted/updated id
-                long id = insert ? result : (result > 0 ? e.Id : 0);
-                ids.Add(id);
-                //Update entity inserted/updated values                
-                e.Id = id;
-                e.Created = reader.GetDateTime(1);
-                e.Modified = reader.GetDateTime(2);
-                if (insert) e.Deleted = null;
-                reader.Close();
-              }
-              reader.Dispose();
+              //Read the results
+              await reader.ReadAsync();
+              long result = reader.GetInt64(0);
+              //Get the inserted/updated id
+              long id = insert ? result : (result > 0 ? e.Id : 0);
+              ids.Add(id);
+              //Update entity inserted/updated values                
+              e.Id = id;
+              e.Created = reader.GetDateTime(1);
+              e.Modified = reader.GetDateTime(2);
+              if (insert) e.Deleted = null;
+              reader.Close();
             }
+            reader.Dispose();
           }
           //Clear parameters
           command.Parameters.Clear();
@@ -437,17 +435,17 @@ namespace Combine.Sdk.Storage.SqlServer
     /// <param name="columns">Column selection collection</param>
     /// <param name="conditions">Query conditions to apply</param>
     /// <returns>ComplexResponse of Paginated collection</returns>
-    public async Task<ComplexResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition<T>> conditions = null)
+    public async Task<ModelResponse<PaginatedCollection<T>>> GetRecords(Pagination pagination, string[] columns = null, List<QueryCondition<T>> conditions = null)
     {
       //Verify pagination instance
       if (pagination == null)
-        return new ComplexResponse<PaginatedCollection<T>>(false, @"The specified pagination instance is not valid.");
+        return new ModelResponse<PaginatedCollection<T>>(false, @"The specified pagination instance is not valid.");
       //Initialize select columns
       if (columns.IsNotValid())
         columns = Columns;
       //Verify integrity Columns (All the supplied columns must exists inside the current entity)
       if (!columns.ToList().TrueForAll(Columns.Contains))
-        return new ComplexResponse<PaginatedCollection<T>>(false, @"The supplied columns does not exist in the current entity.");
+        return new ModelResponse<PaginatedCollection<T>>(false, @"The supplied columns does not exist in the current entity.");
       //Inicialize query conditions
       if (conditions.IsNotValid())
       {
@@ -457,9 +455,9 @@ namespace Combine.Sdk.Storage.SqlServer
       {
         //Validate query conditions integrity (All the supplied property-column query condition reference must exists inside the current entity)
         if (!conditions.Select(c => c.Property).ToList().TrueForAll(Columns.Contains))
-          return new ComplexResponse<PaginatedCollection<T>>(false, @"The supplied columns does not exist in the current entity.");
+          return new ModelResponse<PaginatedCollection<T>>(false, @"The supplied columns does not exist in the current entity.");
       }
-      ComplexResponse<PaginatedCollection<T>> response;
+      ModelResponse<PaginatedCollection<T>> response;
       try
       {
         //Build count query using the given parameters
@@ -511,7 +509,7 @@ namespace Combine.Sdk.Storage.SqlServer
         //Params added
         SqlParameter[] parameters = parameterList.ToArray();
         //Count results
-        ComplexResponse<List<ResultTable>> resultCount = await command.Query(sqlCount.ToString(), parameters);
+        ModelResponse<List<ResultTable>> resultCount = await command.Query(sqlCount.ToString(), parameters);
         if (resultCount.Correct)
         {
           //Get the total records
@@ -520,7 +518,7 @@ namespace Combine.Sdk.Storage.SqlServer
             .GetFirstResult<long>(@"Total");
           //The sql select query result is succeded but it has not returned any record
           if (total.Equals(0))
-            return new ComplexResponse<PaginatedCollection<T>>(false, @"The sql select query result is succeded but it has not returned any record.");
+            return new ModelResponse<PaginatedCollection<T>>(false, @"The sql select query result is succeded but it has not returned any record.");
           //Calculate the pagination size by the given total records
           pagination.Calculate(total);
           //Sql select instance
@@ -544,29 +542,29 @@ namespace Combine.Sdk.Storage.SqlServer
             .Append($@"Offset {pagination.RequestedIndex * pagination.PageSize} Rows ")
             .Append($@"Fetch Next {pagination.PageSize} Rows Only;");
           //Page result
-          ComplexResponse<List<ResultTable>> resultPage = await command.Query(sqlSelect.ToString(), parameters);
+          ModelResponse<List<ResultTable>> resultPage = await command.Query(sqlSelect.ToString(), parameters);
           if (resultPage.Correct)
           {
             //Create the page reference
             PaginatedCollection<T> page = new PaginatedCollection<T>(pagination, resultPage.Model.First().ToEntities<T>());
             //Create response
-            response = new ComplexResponse<PaginatedCollection<T>>(page);
+            response = new ModelResponse<PaginatedCollection<T>>(page);
           }
           else
           {
             //The sql select query result is succeded but it has not returned any record
-            response = new ComplexResponse<PaginatedCollection<T>>(false, resultPage.Message);
+            response = new ModelResponse<PaginatedCollection<T>>(false, resultPage.Message);
           }
         }
         else
         {
           //The sql count query result is succeded but it has not returned any record
-          response = new ComplexResponse<PaginatedCollection<T>>(false, resultCount.Message);
+          response = new ModelResponse<PaginatedCollection<T>>(false, resultCount.Message);
         }
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<PaginatedCollection<T>>(ex);
+        response = new ModelResponse<PaginatedCollection<T>>(ex);
       }
       return response;
     }

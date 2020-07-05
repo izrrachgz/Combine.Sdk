@@ -28,12 +28,12 @@ namespace Combine.Sdk.ToolBox.Terminal
     /// <param name="fileName">File, program, process</param>
     /// <param name="arguments">Command arguments</param>
     /// <returns>String output</returns>
-    public async Task<ComplexResponse<StringBuilder>> Run(string fileName = @"cmd.exe", string arguments = null)
+    public async Task<ModelResponse<StringBuilder>> Run(string fileName = @"cmd.exe", string arguments = null)
     {
       //Verify executable and command args
       if (fileName.IsNotValid())
-        return new ComplexResponse<StringBuilder>(false, @"The supplied filename/arguments are not valid to work with.");
-      ComplexResponse<StringBuilder> response;
+        return new ModelResponse<StringBuilder>(false, @"The supplied filename/arguments are not valid to work with.");
+      ModelResponse<StringBuilder> response;
       try
       {
         //Create process reference
@@ -50,13 +50,13 @@ namespace Combine.Sdk.ToolBox.Terminal
           //Read redirected output stream
           while (!process.StandardOutput.EndOfStream)
             sb.AppendLine(await process.StandardOutput.ReadLineAsync());
-          response = new ComplexResponse<StringBuilder>(sb);
+          response = new ModelResponse<StringBuilder>(sb);
           process.Dispose();
         }
       }
       catch (Exception ex)
       {
-        response = new ComplexResponse<StringBuilder>(ex);
+        response = new ModelResponse<StringBuilder>(ex);
       }
       return response;
     }

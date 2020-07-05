@@ -55,7 +55,7 @@ namespace Combine.Sdk.Tests.ToolBox.Html.Facts
     public async Task ResultTableHtmlTable()
     {
       SqlServerCommand command = new SqlServerCommand(ConnectionString);
-      ComplexResponse<List<ResultTable>> result = await command.Query(@"SELECT Name = 'Israel', Age=27;");
+      ModelResponse<List<ResultTable>> result = await command.Query(@"SELECT Name = 'Israel', Age=27;");
       string table = GridBuilder.HtmlTable(result.Model.ElementAt(0));
       Assert.True(result.Correct && !table.IsNotValid());
     }
