@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using Combine.Sdk.Data.Definitions.Paged;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
-using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
+using Combine.Sdk.Storage.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
-using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
+using Combine.Sdk.Storage.SqlServer.Extensions;
 using Combine.Sdk.Storage.Definitions.DataProvider.Extensions;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
-namespace Combine.Sdk.Storage.DataProvider.SqlServer
+namespace Combine.Sdk.Storage.SqlServer
 {
   /// <summary>
   /// Data provider implementation for sql server

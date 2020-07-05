@@ -8,7 +8,7 @@ using Combine.Sdk.Storage.Definitions.DataProvider.Enums;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
-namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
+namespace Combine.Sdk.Storage.SqlServer.Extensions
 {
   /// <summary>
   /// Provides extension methods for QueryCondition type objects

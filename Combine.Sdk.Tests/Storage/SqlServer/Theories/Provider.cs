@@ -9,9 +9,9 @@ using Combine.Sdk.Data.Definitions.Paged;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Data.Definitions.Collection;
-using Combine.Sdk.Storage.DataProvider.SqlServer;
+using Combine.Sdk.Storage.SqlServer;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
-using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
+using Combine.Sdk.Storage.SqlServer.Extensions;
 using Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Models;
 
 namespace Combine.Sdk.Tests.Storage.SqlServer.Theories

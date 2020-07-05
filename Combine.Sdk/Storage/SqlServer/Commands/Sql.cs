@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
-using Combine.Sdk.Storage.DataProvider.SqlServer.Extensions;
+using Combine.Sdk.Storage.SqlServer.Extensions;
 
-namespace Combine.Sdk.Storage.DataProvider.SqlServer.Commands
+namespace Combine.Sdk.Storage.SqlServer.Commands
 {
   /// <summary>
   /// Provides the functionallity to execute

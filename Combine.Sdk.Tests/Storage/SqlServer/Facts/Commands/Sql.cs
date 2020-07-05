@@ -6,7 +6,7 @@ using Combine.Sdk.Extensions.Json;
 using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Data.Definitions.Collection;
-using Combine.Sdk.Storage.DataProvider.SqlServer.Commands;
+using Combine.Sdk.Storage.SqlServer.Commands;
 using Combine.Sdk.Storage.Definitions.DataProvider.Models;
 
 namespace Combine.Sdk.Tests.Storage.DataProvider.SqlServer.Facts

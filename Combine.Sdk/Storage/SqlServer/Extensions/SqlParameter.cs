@@ -6,7 +6,7 @@ using Combine.Sdk.Extensions.CommonObjects;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 using Combine.Sdk.Storage.Definitions.DataProvider.Extensions;
 
-namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
+namespace Combine.Sdk.Storage.SqlServer.Extensions
 {
   /// <summary>
   /// Provides extension methods for SqlParameter type objects

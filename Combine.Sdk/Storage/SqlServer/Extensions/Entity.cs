@@ -8,7 +8,7 @@ using Combine.Sdk.Data.Definitions.Response;
 using Combine.Sdk.Data.Definitions.Collection;
 using Combine.Sdk.Storage.Definitions.DataProvider.Interfaces;
 
-namespace Combine.Sdk.Storage.DataProvider.SqlServer.Extensions
+namespace Combine.Sdk.Storage.SqlServer.Extensions
 {
   /// <summary>
   /// Provides extension methods for Entity type objects
