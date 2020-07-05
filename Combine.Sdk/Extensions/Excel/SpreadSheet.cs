@@ -642,7 +642,6 @@ namespace Combine.Sdk.Extensions.Excel
         return null;
       //Reference to rows contained inside
       return sheet.Descendants<Row>()
-        .Where(r => !r.Descendants<Cell>().All(c => c.DataType == null))
         .Select(r => r.Descendants<Cell>()
           .Select(c => c.GetValue())
           .ToArray()
@@ -661,7 +660,7 @@ namespace Combine.Sdk.Extensions.Excel
       //Cell is rather empty or not defined
       object value = cell.CellValue?.Text ?? @"";
       //take cell data from string table reference
-      if (cell.DataType?.Equals(CellValues.SharedString) ?? false && value.IsNumber())
+      if (cell.DataType?.Equals(CellValues.SharedString) ?? false)
         value = TableStrings?.ElementAt(Convert.ToInt32(value)) ?? "";
       return value;
     }

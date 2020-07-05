@@ -92,7 +92,19 @@ namespace Combine.Sdk.Tests.Extensions.Excel.Facts
     public void AddDataTableAsRows()
     {
       SpreadsheetDocument document = SpreadSheetExtensions.ExcelDocument();
+    }
 
+    /// <summary>
+    /// Proves that the extension method GetData retrieves
+    /// a collection with all the sheet data contained
+    /// </summary>
+    [Fact]
+    public void GetData()
+    {
+      SpreadsheetDocument document = SpreadSheetExtensions.ExcelDocument();
+      List<object[]> data = document.GetSheetData(@"Report")
+        .GetData();
+      Assert.True(data != null);
     }
   }
 }
