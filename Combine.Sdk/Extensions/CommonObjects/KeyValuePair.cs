@@ -19,7 +19,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     public static T GetFirst<T>(this List<KeyValuePair<string, object>> list, string name)
     {
       if (list.IsNotValid() || name.IsNotValid())
-        return default(T);
+        return default;
       return (T)list
         .Where(e => e.Key.Equals(name))
         .Select(e => e.Value)

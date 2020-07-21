@@ -24,31 +24,11 @@ namespace Combine.Sdk.Extensions.CommonObjects
     }
 
     /// <summary>
-    /// Checks if the given array is null or contains any non-valid value inside
-    /// </summary>
-    /// <param name="array"></param>
-    /// <returns>True or False</returns>
-    public static bool IsNotValid(this HttpResponseMessage[] array)
-    {
-      return array == null || !array.Any() || array.Any(e => e.IsNotValid());
-    }
-
-    /// <summary>
     /// Checks if the given list is not valid or contains any non-valid value inside
     /// </summary>
     /// <param name="list"></param>
     /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<HttpResponseMessage> list)
-    {
-      return list == null || !list.Any() || list.Any(e => e.IsNotValid());
-    }
-
-    /// <summary>
-    /// Checks if the given liwt is not valid or contains any non-valid value inside
-    /// </summary>
-    /// <param name="list"></param>
-    /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<HttpResponseMessage[]> list)
+    public static bool IsNotValid(this IEnumerable<HttpResponseMessage> list)
     {
       return list == null || !list.Any() || list.Any(e => e.IsNotValid());
     }

@@ -26,34 +26,14 @@ namespace Combine.Sdk.Extensions.CommonObjects
     }
 
     /// <summary>
-    /// Checks if the given string array contains any non-valid value inside
-    /// </summary>
-    /// <param name="array">Array of strings to evaluate</param>
-    /// <returns>True or False</returns>
-    public static bool IsNotValid(this string[] array)
-    {
-      return array == null || !array.Any() || array.Any(e => e.IsNotValid());
-    }
-
-    /// <summary>
     /// Checks if the given string list contains any non-valid value inside
     /// </summary>
     /// <param name="list">List of strings to evaluate</param>
     /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<string> list)
+    public static bool IsNotValid(this IEnumerable<string> list)
     {
       return list == null || !list.Any() || list.Any(e => e.IsNotValid());
-    }
-
-    /// <summary>
-    /// Checks if the given string array list contains any non-valid value inside
-    /// </summary>
-    /// <param name="list">List of string arrays to evaluate</param>
-    /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<string[]> list)
-    {
-      return list == null || !list.Any() || list.Any(e => e.IsNotValid());
-    }
+    }   
 
     /// <summary>
     /// Checks if the given string represents an number
@@ -161,7 +141,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     {
       uri = null;
       if (characters.IsNotValid()) return false;
-      bool result = false;
+      bool result;
       try
       {
         uri = new Uri(characters);
@@ -209,12 +189,12 @@ namespace Combine.Sdk.Extensions.CommonObjects
       //Validate the object content
       if (content.IsNotValid()) return false;
       //Initialize default path and name values
-      filePath = filePath ?? AppDomain.CurrentDomain.BaseDirectory;
-      fileName = fileName ?? $@"{Guid.NewGuid():N}";
+      filePath ??= AppDomain.CurrentDomain.BaseDirectory;
+      fileName ??= $@"{Guid.NewGuid():N}";
       //Validate the path and name file values
       if (!filePath.IsDirectoryPath() || fileName.IsNotValid()) return false;
       string fileFullName = $@"{filePath}{fileName}{extension ?? @".txt"}";
-      bool saved = false;
+      bool saved;
       try
       {
         //Check for directory existance, if it doesnt exists then we've to create it

@@ -17,33 +17,13 @@ namespace Combine.Sdk.Extensions.CommonObjects
     {
       return value.Equals(decimal.MinValue);
     }
-
-    /// <summary>
-    /// Checks if the given decimal array is not valid or contains any non-valid value inside
-    /// </summary>
-    /// <param name="array">Array of decimal to evaluate</param>
-    /// <returns>True or False</returns>
-    public static bool IsNotValid(this decimal[] array)
-    {
-      return array == null || !array.Any() || array.Any(e => e.IsNotValid());
-    }
-
+   
     /// <summary>
     /// Checks if the given list is not valid or contains any non-valid value inside
     /// </summary>
     /// <param name="list">Collection of decimal to evaluate</param>
     /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<decimal> list)
-    {
-      return list == null || !list.Any() || list.Any(e => e.IsNotValid());
-    }
-
-    /// <summary>
-    /// Checks if the given list is not valid or contains any non-valid value inside
-    /// </summary>
-    /// <param name="list">Collection of decimal to evaluate</param>
-    /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<decimal[]> list)
+    public static bool IsNotValid(this IEnumerable<decimal> list)
     {
       return list == null || !list.Any() || list.Any(e => e.IsNotValid());
     }

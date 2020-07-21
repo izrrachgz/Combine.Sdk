@@ -23,7 +23,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// </summary>
     /// <param name="list">Collection of byte arrays to evaluate</param>
     /// <returns>True or False</returns>
-    public static bool IsNotValid(this List<byte[]> list)
+    public static bool IsNotValid(this IEnumerable<byte[]> list)
     {
       return list == null || !list.Any() || list.Any(e => e.IsNotValid());
     }

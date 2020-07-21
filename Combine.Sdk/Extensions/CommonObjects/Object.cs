@@ -169,12 +169,12 @@ namespace Combine.Sdk.Extensions.CommonObjects
       //Validate the object content
       if (content == null) return false;
       //Initialize default path and name values
-      filePath = filePath ?? AppDomain.CurrentDomain.BaseDirectory;
-      fileName = fileName ?? $@"{Guid.NewGuid():N}";
+      filePath ??= AppDomain.CurrentDomain.BaseDirectory;
+      fileName ??= $@"{Guid.NewGuid():N}";
       //Validate the path and name file values
       if (!filePath.IsDirectoryPath() || fileName.IsNotValid()) return false;
       string fileFullName = $@"{filePath}{fileName}.dat";
-      bool saved = false;
+      bool saved;
       try
       {
         //Check for directory existance, if it doesnt exists then we've to create it
