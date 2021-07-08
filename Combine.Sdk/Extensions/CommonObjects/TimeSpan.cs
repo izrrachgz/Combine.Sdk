@@ -16,7 +16,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <returns>True or False</returns>
     public static bool IsNotValid(this TimeSpan time)
     {
-      return time == null || time.Equals(TimeSpan.MinValue);
+      return time.Equals(TimeSpan.MinValue);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <returns>True or False</returns>
     public static bool IsNotValid(this Color color)
     {
-      return color == null || color.Equals(Color.Empty) || color.Equals(Color.Transparent);
+      return color.Equals(Color.Empty) || color.Equals(Color.Transparent);
     }
 
     /// <summary>

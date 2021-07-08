@@ -16,7 +16,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <returns>True or False</returns>
     public static bool IsNotValid(this Guid value)
     {
-      return value == null || value.Equals(Guid.Empty);
+      return value.Equals(Guid.Empty);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace Combine.Sdk.Extensions.CommonObjects
     /// <returns>True or False</returns>
     public static bool IsNotValid(this DateTime date)
     {
-      return date == null || date.Equals(DateTime.MinValue);
+      return date.Equals(DateTime.MinValue);
     }   
 
     /// <summary>
